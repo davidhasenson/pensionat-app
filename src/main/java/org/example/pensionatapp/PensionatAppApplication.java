@@ -11,3 +11,10 @@ public class PensionatAppApplication {
     }
 
 }
+
+/*TODO
+* create BookingService
+* create RoomService
+* create Customer Controller
+* create Booking Controller
+* */
