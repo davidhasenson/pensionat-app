@@ -13,7 +13,7 @@ public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @NotBlank(message = "Rumsnummer måste anges")
     private String roomNumber;
