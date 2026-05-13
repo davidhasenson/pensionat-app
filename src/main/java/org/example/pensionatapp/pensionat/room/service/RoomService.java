@@ -12,11 +12,9 @@ import java.util.List;
 public class RoomService {
 
     private final RoomRepository roomRepository;
-    private final BookingRepository bookingRepository;
 
     public RoomService(RoomRepository roomRepository, BookingRepository bookingRepository) {
         this.roomRepository = roomRepository;
-        this.bookingRepository = bookingRepository;
     }
 
     public List<Room> getAllRooms() {
