@@ -21,7 +21,7 @@ public class Room {
    @Min(value = 1, message = "Ett rum måste ha minst en säng")
     private int beds;
 
-   @Min(value = 1, message = "Pris per natt måste vara större än 0")
+   @Min(value = 0, message = "Pris per natt måste vara större än 0")
     private int pricePerNight;
 
    protected Room() {}
@@ -29,6 +29,38 @@ public class Room {
     public Room(String roomNumber, int beds, int pricePerNight) {
         this.roomNumber = roomNumber;
         this.beds = beds;
+        this.pricePerNight = pricePerNight;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(String roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+
+    public int getBeds() {
+        return beds;
+    }
+
+    public void setBeds(int beds) {
+        this.beds = beds;
+    }
+
+    public int getPricePerNight() {
+        return pricePerNight;
+    }
+
+    public void setPricePerNight(int pricePerNight) {
         this.pricePerNight = pricePerNight;
     }
 }

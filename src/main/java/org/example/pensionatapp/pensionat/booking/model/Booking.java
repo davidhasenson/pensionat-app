@@ -27,6 +27,7 @@ public class Booking {
     private LocalDate startDate;
 
     @NotNull(message = "Slutdatum måste anges")
+    @FutureOrPresent(message = "Slutdatum kan inte vara bakåt i tiden")
     private LocalDate endDate;
 
     @Enumerated(EnumType.STRING)

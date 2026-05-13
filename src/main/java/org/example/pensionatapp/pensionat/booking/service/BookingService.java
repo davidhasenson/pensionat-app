@@ -1,10 +1,12 @@
 package org.example.pensionatapp.pensionat.booking.service;
 
+import jakarta.transaction.Transactional;
 import org.example.pensionatapp.pensionat.booking.BookingStatus;
 import org.example.pensionatapp.pensionat.booking.model.Booking;
 import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
 import org.example.pensionatapp.pensionat.customer.model.Customer;
 import org.example.pensionatapp.pensionat.customer.repository.CustomerRepository;
+import org.example.pensionatapp.pensionat.error.NotFoundException;
 import org.example.pensionatapp.pensionat.room.model.Room;
 import org.example.pensionatapp.pensionat.room.repository.RoomRepository;
 import org.springframework.stereotype.Service;
@@ -29,14 +31,15 @@ public class BookingService {
         this.roomRepository = roomRepository;
     }
 
+    @Transactional
     public Booking createBooking(Long customerId, Long roomId, LocalDate startDate, LocalDate endDate) {
         validateDates(startDate, endDate);
 
         Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new IllegalArgumentException("Kunden finns inte"));
+                .orElseThrow(() -> new NotFoundException("Kunden finns inte"));
 
         Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new IllegalArgumentException("Rummet finns inte"));
+                .orElseThrow(() -> new NotFoundException("Rummet finns inte"));
 
         checkRoomAvailability(roomId, startDate, endDate);
 
@@ -49,10 +52,10 @@ public class BookingService {
         validateDates(startDate, endDate);
 
         Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new IllegalArgumentException("Bokningen finns inte"));
+                .orElseThrow(() -> new NotFoundException("Bokningen finns inte"));
 
         Room room = roomRepository.findById(roomId)
-                .orElseThrow(() -> new IllegalArgumentException("Rummet finns inte"));
+                .orElseThrow(() -> new NotFoundException("Rummet finns inte"));
 
         checkRoomAvailability(roomId, startDate, endDate);
 
@@ -65,7 +68,7 @@ public class BookingService {
 
     public void cancelBooking(Long bookingId) {
         Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new IllegalArgumentException("Bokningen finns inte"));
+                .orElseThrow(() -> new NotFoundException("Bokningen finns inte"));
 
         booking.setStatus(BookingStatus.CANCELLED);
         bookingRepository.save(booking);
