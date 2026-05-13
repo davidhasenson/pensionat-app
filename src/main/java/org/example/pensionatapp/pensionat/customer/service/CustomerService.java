@@ -1,5 +1,6 @@
 package org.example.pensionatapp.pensionat.customer.service;
 
+import jakarta.transaction.Transactional;
 import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
 import org.example.pensionatapp.pensionat.customer.model.CreateCustomerRequest;
 import org.example.pensionatapp.pensionat.customer.model.Customer;
@@ -23,6 +24,7 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
+    @Transactional
     public Customer createCustomer(CreateCustomerRequest request) {
         Customer customer = new Customer(request.firstName(), request.lastName(), request.email(), request.phone());
         return customerRepository.save(customer);
