@@ -24,6 +24,7 @@ public class BookingController {
     @GetMapping("/{id}")
     public Booking getBookingById(@PathVariable Long id) {
         return bookingService.getBookingById(id);
+    }
       
   
     @GetMapping
@@ -35,10 +36,5 @@ public class BookingController {
     @ResponseStatus(HttpStatus.CREATED)
     public Booking createBooking(@RequestBody @Valid CreateBookingRequest request) {
         return bookingService.createBooking(request.customerId(), request.roomId(), request.startDate(), request.endDate());
-    }
-
-    @GetMapping
-    public List<Booking> getAllBookings() {
-        return bookingService.getAllBookings();
     }
 }
