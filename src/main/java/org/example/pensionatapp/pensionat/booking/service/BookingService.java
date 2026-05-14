@@ -105,4 +105,9 @@ public class BookingService {
             throw new IllegalStateException("Rummet är redan bokat under valt datumintervall");
         }
     }
+
+    public Booking getBookingById(Long id) {
+        return bookingRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Bokningen finns inte"));
+    }
 }

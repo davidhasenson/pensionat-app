@@ -21,6 +21,11 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
+    @GetMapping("/{id}")
+    public Booking getBookingById(@PathVariable Long id) {
+        return bookingService.getBookingById(id);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Booking createBooking(@RequestBody @Valid CreateBookingRequest request) {
