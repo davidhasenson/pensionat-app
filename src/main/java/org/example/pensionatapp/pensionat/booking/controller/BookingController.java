@@ -21,7 +21,11 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
-    //add admin controll
+    @GetMapping("/{id}")
+    public Booking getBookingById(@PathVariable Long id) {
+        return bookingService.getBookingById(id);
+      
+  
     @GetMapping
     public List<Booking> getAllBookings() {
         return bookingService.getAllBookings();
