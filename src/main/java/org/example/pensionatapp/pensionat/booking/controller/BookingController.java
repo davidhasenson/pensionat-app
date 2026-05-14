@@ -24,6 +24,11 @@ public class BookingController {
     @GetMapping("/{id}")
     public Booking getBookingById(@PathVariable Long id) {
         return bookingService.getBookingById(id);
+      
+  
+    @GetMapping
+    public List<Booking> getAllBookings() {
+        return bookingService.getAllBookings();
     }
 
     @PostMapping
@@ -32,5 +37,8 @@ public class BookingController {
         return bookingService.createBooking(request.customerId(), request.roomId(), request.startDate(), request.endDate());
     }
 
-
+    @GetMapping
+    public List<Booking> getAllBookings() {
+        return bookingService.getAllBookings();
+    }
 }
