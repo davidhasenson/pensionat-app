@@ -21,6 +21,12 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
+    //add admin controll
+    @GetMapping
+    public List<Booking> getAllBookings() {
+        return bookingService.getAllBookings();
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Booking createBooking(@RequestBody @Valid CreateBookingRequest request) {
