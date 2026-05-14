@@ -27,5 +27,8 @@ public class BookingController {
         return bookingService.createBooking(request.customerId(), request.roomId(), request.startDate(), request.endDate());
     }
 
-
+    @GetMapping
+    public List<Booking> getAllBookings() {
+        return bookingService.getAllBookings();
+    }
 }
