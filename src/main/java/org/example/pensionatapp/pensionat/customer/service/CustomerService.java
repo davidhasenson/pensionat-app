@@ -64,17 +64,5 @@ public class CustomerService {
 
         customerRepository.delete(customer);
     }
-    public void deleteCustomer(Long id) {
-        Customer customer = customerRepository.findById(id)
-                .orElseThrow(()-> new NotFoundException("Kunden hittades inte"));
-
-//        boolean hasBooking = customerRepository.
-//
-//        if (hasBooking) {
-//            throw new IllegalStateException("Kunden har aktiva bokningar");
-//        }
-
-        customerRepository.delete(customer);
-    }
 
 }
