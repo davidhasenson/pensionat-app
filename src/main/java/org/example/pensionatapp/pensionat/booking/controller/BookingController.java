@@ -25,7 +25,6 @@ public class BookingController {
     public Booking getBookingById(@PathVariable Long id) {
         return bookingService.getBookingById(id);
     }
-      
   
     @GetMapping
     public List<Booking> getAllBookings() {
@@ -35,6 +34,29 @@ public class BookingController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Booking createBooking(@RequestBody @Valid CreateBookingRequest request) {
-        return bookingService.createBooking(request.customerId(), request.roomId(), request.startDate(), request.endDate());
+        return bookingService.createBooking(
+                request.customerId(),
+                request.roomId(),
+                request.startDate(),
+                request.endDate()
+        );
+    }
+
+    @PutMapping("/{id}")
+    public Booking updateBooking(
+            @PathVariable Long id,
+            @RequestBody @Valid CreateBookingRequest request
+    ) {
+        return bookingService.updateBooking(
+                id,
+                request.roomId(),
+                request.startDate(),
+                request.endDate()
+        );
+    }
+
+    @PatchMapping("/{id}/cancel")
+    public Booking cancelBooking(@PathVariable Long id) {
+        return bookingService.cancelBooking(id);
     }
 }
