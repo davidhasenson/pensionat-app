@@ -34,7 +34,7 @@ public class CustomerService {
 
     @Transactional
     public Customer createCustomer(CreateCustomerRequest request) {
-        Customer customer = new Customer(request.firstName(), request.lastName(), request.email(), request.phone());
+        Customer customer = new Customer(request.firstName(), request.lastName(), request.email(), request.phone(), request.password());
         return customerRepository.save(customer);
     }
 
