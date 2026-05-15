@@ -12,7 +12,7 @@ import java.util.List;
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotBlank(message = "Förnamn måste anges")
@@ -35,8 +35,8 @@ public class Customer {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "customer")
-    private List<Booking> bookings = new ArrayList<>();
+//    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Booking> bookings = new ArrayList<>();
 
     public Customer() {
     }
@@ -89,13 +89,13 @@ public class Customer {
         this.phone = phone;
     }
 
-    public List<Booking> getBookings() {
-        return bookings;
-    }
-
-    public void setBookings(List<Booking> bookings) {
-        this.bookings = bookings;
-    }
+//    public List<Booking> getBookings() {
+//        return bookings;
+//    }
+//
+//    public void setBookings(List<Booking> bookings) {
+//        this.bookings = bookings;
+//    }
 
     public String getPassword() {
         return password;

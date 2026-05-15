@@ -1,17 +1,15 @@
 package org.example.pensionatapp.pensionat.customer.service;
 
 import jakarta.transaction.Transactional;
-import org.apache.coyote.Response;
 import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
 import org.example.pensionatapp.pensionat.customer.model.CreateCustomerRequest;
 import org.example.pensionatapp.pensionat.customer.model.Customer;
 import org.example.pensionatapp.pensionat.customer.model.UpdateCustomerRequest;
 import org.example.pensionatapp.pensionat.customer.repository.CustomerRepository;
 import org.example.pensionatapp.pensionat.error.NotFoundException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -52,15 +50,15 @@ public class CustomerService {
 
         return customerRepository.save(existingCustomer);
     }
+
     public void deleteCustomer(Long id) {
         Customer customer = customerRepository.findById(id)
-                .orElseThrow(()-> new NotFoundException("Kunden hittades inte"));
+                .orElseThrow(() -> new NotFoundException("Kunden hittades inte"));
 
-//        boolean hasBooking = customerRepository.
-//
-//        if (hasBooking) {
-//            throw new IllegalStateException("Kunden har aktiva bokningar");
-//        }
+        boolean hasBooking = bookingRepository.existsByCustomerIdAndEndDateAfter(id, LocalDateTime.now());
+        if (hasBooking) {
+            throw new IllegalStateException("Kunden har aktiva bokningar");
+        }
 
         customerRepository.delete(customer);
     }
