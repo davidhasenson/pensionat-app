@@ -5,6 +5,7 @@ import org.example.pensionatapp.pensionat.booking.model.Booking;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
@@ -20,4 +21,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     List<Booking> findByRoomAndStatus(Long roomId, BookingStatus status);
 
+    boolean existsByCustomerId(Long customerId);
+
+    boolean existsByCustomerIdAndEndDateAfter(Long customerId, LocalDateTime now);
 }

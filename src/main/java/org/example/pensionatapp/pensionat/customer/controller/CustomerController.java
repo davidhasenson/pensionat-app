@@ -45,8 +45,6 @@ public class CustomerController {
     Customer created = customerService.createCustomer(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
 }
-
-
 */
 
     @GetMapping("/{id}")
@@ -67,4 +65,9 @@ public class CustomerController {
         }*/
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
+        customerService.deleteCustomer(id);
+        return ResponseEntity.noContent().build();
+    }
 }
