@@ -66,12 +66,13 @@ public class BookingService {
         return bookingRepository.save(booking);
     }
 
-    public void cancelBooking(Long bookingId) {
+    public Booking cancelBooking(Long bookingId) {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new NotFoundException("Bokningen finns inte"));
 
         booking.setStatus(BookingStatus.CANCELLED);
-        bookingRepository.save(booking);
+
+        return bookingRepository.save(booking);
     }
 
     public List<Booking> getAllBookings() {
