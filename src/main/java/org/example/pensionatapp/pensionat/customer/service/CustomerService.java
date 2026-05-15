@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
 import org.example.pensionatapp.pensionat.customer.model.CreateCustomerRequest;
 import org.example.pensionatapp.pensionat.customer.model.Customer;
+import org.example.pensionatapp.pensionat.customer.model.UpdateCustomerRequest;
 import org.example.pensionatapp.pensionat.customer.repository.CustomerRepository;
 import org.example.pensionatapp.pensionat.error.NotFoundException;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class CustomerService {
 
     public Customer getCustomerById(Long id) {
         return customerRepository.findById(id).orElseThrow(
-                ()-> new NotFoundException("Kunden hittades inte")
+                () -> new NotFoundException("Kunden hittades inte")
         );
     }
 
@@ -38,5 +39,16 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
+    @Transactional
+    public Customer updateCustomer(Long id, UpdateCustomerRequest request) {
+        Customer existingCustomer = customerRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Kunden hittades inte"));
+
+        existingCustomer.setFirstName(request.firstName());
+        existingCustomer.setLastName(request.lastName());
+        existingCustomer.setPhone(request.phone());
+
+        return customerRepository.save(existingCustomer);
+    }
 
 }

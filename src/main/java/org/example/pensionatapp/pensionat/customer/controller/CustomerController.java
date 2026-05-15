@@ -3,6 +3,7 @@ package org.example.pensionatapp.pensionat.customer.controller;
 import jakarta.validation.Valid;
 import org.example.pensionatapp.pensionat.customer.model.CreateCustomerRequest;
 import org.example.pensionatapp.pensionat.customer.model.Customer;
+import org.example.pensionatapp.pensionat.customer.model.UpdateCustomerRequest;
 import org.example.pensionatapp.pensionat.customer.service.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,14 @@ public class CustomerController {
     public ResponseEntity<Customer> createCustomer(@RequestBody @Valid CreateCustomerRequest request) {
         return customerService.createCustomer(request);
     }
+
+    @PostMapping
+    public ResponseEntity<Customer> createCustomer(@RequestBody @Valid CreateCustomerRequest request) {
+    Customer created = customerService.createCustomer(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+}
+
+
 */
 
     @GetMapping("/{id}")
@@ -45,5 +54,17 @@ public class CustomerController {
         return customerService.getCustomerById(id);
     }
 
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @Valid @RequestBody UpdateCustomerRequest request) {
+        Customer updated = customerService.updateCustomer(id, request);
+        return ResponseEntity.ok(updated); // Detta är tydligare än en annotering
+
+     /*   if (customerExists) {
+            return ResponseEntity.ok(customer); // Returnerar 200 + kunden
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // Returnerar 404 utan kropp
+        }*/
+    }
 
 }
