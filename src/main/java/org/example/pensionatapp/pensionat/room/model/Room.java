@@ -1,12 +1,10 @@
 package org.example.pensionatapp.pensionat.room.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import org.example.pensionatapp.pensionat.room.BedType;
 
 @Entity
 public class Room {
@@ -21,14 +19,24 @@ public class Room {
    @Min(value = 1, message = "Ett rum måste ha minst en säng")
     private int beds;
 
+   @Enumerated(EnumType.STRING)
+   private BedType bedType;
+
    @Min(value = 0, message = "Pris per natt måste vara större än 0")
     private int pricePerNight;
 
    protected Room() {}
 
     public Room(String roomNumber, int beds, int pricePerNight) {
+       this.roomNumber = roomNumber;
+       this.beds = beds;
+       this.pricePerNight = pricePerNight;
+    }
+
+    public Room(String roomNumber, int beds, BedType bedType, int pricePerNight) {
         this.roomNumber = roomNumber;
         this.beds = beds;
+        this.bedType = bedType;
         this.pricePerNight = pricePerNight;
     }
 
@@ -54,6 +62,14 @@ public class Room {
 
     public void setBeds(int beds) {
         this.beds = beds;
+    }
+
+    public BedType getBedType() {
+       return bedType;
+    }
+
+    public void setBedType(BedType bedType) {
+       this.bedType = bedType;
     }
 
     public int getPricePerNight() {

@@ -16,6 +16,7 @@ public class RoomController {
     public RoomController(RoomService roomService) {
         this.roomService = roomService;
     }
+
     @GetMapping
     public List<Room> getAllRooms(){
         return roomService.getAllRooms();
