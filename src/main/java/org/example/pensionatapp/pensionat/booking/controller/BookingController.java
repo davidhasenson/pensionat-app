@@ -15,7 +15,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class BookingController {
 
-    private BookingService bookingService;
+    private final BookingService bookingService;
 
     public BookingController(BookingService bookingService) {
         this.bookingService = bookingService;
