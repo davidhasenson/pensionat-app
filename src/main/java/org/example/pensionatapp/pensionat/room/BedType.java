@@ -2,6 +2,8 @@ package org.example.pensionatapp.pensionat.room;
 
 public enum BedType {
 
-    SINGLEBED,
-    DOUBLEBED,
+    SINGLE_BED,
+    DOUBLE_BED,
+    TWIN_ROOM,
+    SUITE
 }
