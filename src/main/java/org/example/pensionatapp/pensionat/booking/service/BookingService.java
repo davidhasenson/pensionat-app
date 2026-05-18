@@ -10,6 +10,7 @@ import org.example.pensionatapp.pensionat.error.NotFoundException;
 import org.example.pensionatapp.pensionat.room.model.Room;
 import org.example.pensionatapp.pensionat.room.repository.RoomRepository;
 import org.springframework.stereotype.Service;
+import org.example.pensionatapp.pensionat.error.BadRequestException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -57,7 +58,18 @@ public class BookingService {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new NotFoundException("Rummet finns inte"));
 
-        checkRoomAvailability(roomId, startDate, endDate);
+        boolean roomIsBooked = bookingRepository
+                .existsByRoomIdAndStatusAndStartDateLessThanAndEndDateGreaterThanAndIdNot(
+                        roomId,
+                        BookingStatus.ACTIVE,
+                        endDate,
+                        startDate,
+                        bookingId
+                );
+
+        if (roomIsBooked) {
+            throw new BadRequestException("Rummet är redan bokat under valt datumintervall");
+        }
 
         booking.setRoom(room);
         booking.setStartDate(startDate);
@@ -81,15 +93,15 @@ public class BookingService {
 
     private void validateDates(LocalDate startDate, LocalDate endDate) {
         if (startDate == null || endDate == null) {
-            throw new IllegalArgumentException("Startdatum och slutdatum måste anges");
+            throw new BadRequestException("Startdatum och slutdatum måste anges");
         }
 
         if (startDate.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("Startdatum kan inte vara bakåt i tiden");
+            throw new BadRequestException("Startdatum kan inte vara bakåt i tiden");
         }
 
         if (!startDate.isBefore(endDate)) {
-            throw new IllegalArgumentException("Slutdatum måste vara efter startdatum");
+            throw new BadRequestException("Slutdatum måste vara efter startdatum");
         }
     }
 
