@@ -24,45 +24,27 @@ public class CustomerController {
     }
 
     @GetMapping
-    public List<Customer> getAllCustomers() {
-        return customerService.getAllCustomers();
+    public ResponseEntity<List<Customer>> getAllCustomers() {
+        List<Customer> customers = customerService.getAllCustomers();
+        return ResponseEntity.ok().body(customers);
     }
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Customer createCustomer(@RequestBody @Valid CreateCustomerRequest request) {
-        return customerService.createCustomer(request);
-    }
-    /*
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Customer> createCustomer(@RequestBody @Valid CreateCustomerRequest request) {
-        return customerService.createCustomer(request);
-    }
-
-    @PostMapping
-    public ResponseEntity<Customer> createCustomer(@RequestBody @Valid CreateCustomerRequest request) {
-    Customer created = customerService.createCustomer(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
-}
-*/
 
     @GetMapping("/{id}")
-    public Customer getCustomer(@PathVariable Long id) {
-        return customerService.getCustomerById(id);
+    public ResponseEntity<Customer> getCustomer(@PathVariable long id) {
+        Customer customer = customerService.getCustomerById(id);
+        return ResponseEntity.ok().body(customer);
     }
 
+    @PostMapping
+    public ResponseEntity<Customer> createCustomer(@RequestBody @Valid CreateCustomerRequest request) {
+        Customer created = customerService.createCustomer(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @Valid @RequestBody UpdateCustomerRequest request) {
         Customer updated = customerService.updateCustomer(id, request);
-        return ResponseEntity.ok(updated); // Detta är tydligare än en annotering
-
-     /*   if (customerExists) {
-            return ResponseEntity.ok(customer); // Returnerar 200 + kunden
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // Returnerar 404 utan kropp
-        }*/
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
