@@ -32,4 +32,16 @@ public class RoomService {
          return roomRepository.findById(id).orElseThrow(()
                  ->new NotFoundException("Rum med id " + id + " hittades inte."));
     }
+
+    public Room updateRoom (long id, String roomNumber, int beds, int pricePerNight) {
+
+        Room room = roomRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Rum med id " + id + " hittades inte."));
+
+        room.setRoomNumber(roomNumber);
+        room.setBeds(beds);
+        room.setPricePerNight(pricePerNight);
+
+        return roomRepository.save(room);
+    }
 }
