@@ -4,14 +4,16 @@ import org.example.pensionatapp.pensionat.room.BedType;
 import org.example.pensionatapp.pensionat.room.model.Room;
 import org.example.pensionatapp.pensionat.room.repository.RoomRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DataSeeder implements CommandLineRunner {
+@Order(value = 1)
+public class RoomSeeder implements CommandLineRunner {
 
     private final RoomRepository roomRepository;
 
-    public DataSeeder(RoomRepository roomRepository) {
+    public RoomSeeder(RoomRepository roomRepository) {
         this.roomRepository = roomRepository;
     }
 
