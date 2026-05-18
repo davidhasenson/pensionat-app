@@ -35,4 +35,6 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     boolean existsByCustomerId(Long customerId);
 
     boolean existsByCustomerIdAndEndDateAfter(Long customerId, LocalDateTime now);
+
+    List<Booking> findByCustomerId(Long customerId);
 }

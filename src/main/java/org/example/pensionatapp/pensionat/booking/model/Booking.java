@@ -16,7 +16,8 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
+    @JoinColumn(nullable = true)
     private Customer customer;
 
     @ManyToOne(optional = false)
@@ -50,6 +51,10 @@ public class Booking {
 
     public Customer getCustomer() {
         return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Room getRoom() {
