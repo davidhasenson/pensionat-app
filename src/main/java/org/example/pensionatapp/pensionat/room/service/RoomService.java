@@ -16,9 +16,9 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final BookingRepository bookingRepository;
 
-    public RoomService(RoomRepository roomRepository, BookingRepository bookingRepository, BookingRepository bookingRepository1) {
+    public RoomService(RoomRepository roomRepository, BookingRepository bookingRepository) {
         this.roomRepository = roomRepository;
-        this.bookingRepository = bookingRepository1;
+        this.bookingRepository = bookingRepository;
     }
 
     public List<Room> getAllRooms() {
