@@ -2,6 +2,7 @@ package org.example.pensionatapp.pensionat.customer.service;
 
 import jakarta.transaction.Transactional;
 import org.apache.coyote.Response;
+import org.example.pensionatapp.pensionat.booking.model.Booking;
 import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
 import org.example.pensionatapp.pensionat.customer.model.CreateCustomerRequest;
 import org.example.pensionatapp.pensionat.customer.model.Customer;
@@ -53,6 +54,7 @@ public class CustomerService {
         return customerRepository.save(existingCustomer);
     }
 
+    @Transactional
     public void deleteCustomer(Long id) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Kunden hittades inte"));
@@ -60,6 +62,11 @@ public class CustomerService {
         boolean hasBooking = bookingRepository.existsByCustomerIdAndEndDateAfter(id, LocalDateTime.now());
         if (hasBooking) {
             throw new IllegalStateException("Kunden har aktiva bokningar");
+        }
+
+        for (Booking booking : bookingRepository.findByCustomerId(id)) {
+            booking.setCustomer(null);
+            bookingRepository.save(booking);
         }
 
         customerRepository.delete(customer);
