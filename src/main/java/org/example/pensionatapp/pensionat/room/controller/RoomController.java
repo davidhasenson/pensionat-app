@@ -35,6 +35,7 @@ public class RoomController {
         return roomService.createRoom(
                 request.roomNumber(),
                 request.beds(),
+                request.bedType(),
                 request.pricePerNight());
     }
 
@@ -44,6 +45,7 @@ public class RoomController {
                 id,
                 request.roomNumber(),
                 request.beds(),
+                request.bedType(),
                 request.pricePerNight());
     }
 
