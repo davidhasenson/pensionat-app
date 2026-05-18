@@ -4,6 +4,7 @@ import org.example.pensionatapp.pensionat.booking.BookingStatus;
 import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
 import org.example.pensionatapp.pensionat.error.BadRequestException;
 import org.example.pensionatapp.pensionat.error.NotFoundException;
+import org.example.pensionatapp.pensionat.room.BedType;
 import org.example.pensionatapp.pensionat.room.model.Room;
 import org.example.pensionatapp.pensionat.room.repository.RoomRepository;
 import org.springframework.stereotype.Service;
@@ -25,9 +26,9 @@ public class RoomService {
         return roomRepository.findAll();
     }
 
-    public Room createRoom (String roomNumber, int beds, int pricePerNight) {
+    public Room createRoom (String roomNumber, int beds, BedType bedType,int pricePerNight) {
 
-        Room room = new Room (roomNumber, beds, pricePerNight);
+        Room room = new Room (roomNumber, beds, bedType, pricePerNight);
 
         return roomRepository.save(room);
     }
@@ -37,12 +38,13 @@ public class RoomService {
                  ->new NotFoundException("Rum med id " + id + " hittades inte."));
     }
 
-    public Room updateRoom (long id, String roomNumber, int beds, int pricePerNight) {
+    public Room updateRoom (long id, String roomNumber, int beds,BedType bedType, int pricePerNight) {
 
        Room room = getRoomById(id);
 
         room.setRoomNumber(roomNumber);
         room.setBeds(beds);
+        room.setBedType(bedType);
         room.setPricePerNight(pricePerNight);
 
         return roomRepository.save(room);
