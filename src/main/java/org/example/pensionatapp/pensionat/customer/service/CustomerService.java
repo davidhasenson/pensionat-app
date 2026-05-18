@@ -53,6 +53,7 @@ public class CustomerService {
         return customerRepository.save(existingCustomer);
     }
 
+    @Transactional
     public void deleteCustomer(Long id) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Kunden hittades inte"));
