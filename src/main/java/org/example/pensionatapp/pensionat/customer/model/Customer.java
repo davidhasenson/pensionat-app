@@ -31,14 +31,21 @@ public class Customer {
 
     private String phone;
 
-    @NotBlank(message = "Lösenord måste anges")
-    @Column(nullable = false)
+   // @NotBlank(message = "Lösenord måste anges")
+   // @Column(nullable = false)
     private String password;
 
 //    @OneToMany(mappedBy = "customer")
 //    private List<Booking> bookings = new ArrayList<>();
 
     public Customer() {
+    }
+
+    public Customer(String firstName, String lastName, String email, String phone) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
     }
 
     public Customer(String firstName, String lastName, String email, String phone, String password) {

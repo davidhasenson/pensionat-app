@@ -16,6 +16,6 @@ public record CreateCustomerRequest(
 
         String phone,
 
-        @NotBlank(message = "Lösenord måste anges")
+       // @NotBlank(message = "Lösenord måste anges")
         String password) {
 }
