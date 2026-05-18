@@ -3,6 +3,7 @@ package org.example.pensionatapp.pensionat.room.controller;
 import jakarta.validation.Valid;
 import org.example.pensionatapp.pensionat.room.model.CreateRoomRequest;
 import org.example.pensionatapp.pensionat.room.model.Room;
+import org.example.pensionatapp.pensionat.room.model.UpdateRoomRequest;
 import org.example.pensionatapp.pensionat.room.service.RoomService;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +36,20 @@ public class RoomController {
                 request.roomNumber(),
                 request.beds(),
                 request.pricePerNight());
+    }
+
+    @PutMapping("/{id}")
+    public Room updateRoom(@PathVariable long id, @RequestBody @Valid UpdateRoomRequest request){
+        return roomService.updateRoom(
+                id,
+                request.roomNumber(),
+                request.beds(),
+                request.pricePerNight());
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteRoom(@PathVariable long id){
+        roomService.deleteRoom(id);
     }
 
 }
