@@ -1,7 +1,10 @@
 package org.example.pensionatapp.pensionat.room.service;
 
 import org.example.pensionatapp.pensionat.booking.BookingStatus;
+import org.example.pensionatapp.pensionat.booking.model.Booking;
 import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
+import org.example.pensionatapp.pensionat.customer.model.Customer;
+import org.example.pensionatapp.pensionat.error.BadRequestException;
 import org.example.pensionatapp.pensionat.room.BedType;
 import org.example.pensionatapp.pensionat.room.model.CreateRoomRequest;
 import org.example.pensionatapp.pensionat.room.model.Room;
@@ -14,7 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collection;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -130,5 +133,27 @@ class RoomServiceTest {
     }
 
     @Test
-    void deleteRoom_shouldThrowBadRequestExceptionWhenActiveBookingsExist(){}
+    void deleteRoom_shouldThrowBadRequestExceptionWhenActiveBookingsExist(){
+        //Arrange
+        Booking fakeBooking = new Booking(
+                new Customer("Adam", "Klarin",
+                        "adam@test.se", "07045356534"),
+                room1,
+                LocalDate.now(),
+                LocalDate.now().plusDays(3),
+                BookingStatus.ACTIVE
+        );
+
+        List<Booking> fakeBookings = List.of(fakeBooking);
+
+        when(roomRepository.findById(1L)).thenReturn(Optional.of(room1));
+
+        when(bookingRepository.findByRoomIdAndStatus(
+                1L, BookingStatus.ACTIVE))
+        .thenReturn(fakeBookings);
+
+        //ACT + Assert
+
+        assertThrows(BadRequestException.class, () -> roomService.deleteRoom(1L));
+    }
 }
