@@ -1,5 +1,6 @@
 package org.example.pensionatapp.pensionat.room.service;
 
+import org.example.pensionatapp.pensionat.booking.BookingStatus;
 import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
 import org.example.pensionatapp.pensionat.room.BedType;
 import org.example.pensionatapp.pensionat.room.model.CreateRoomRequest;
@@ -13,7 +14,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -44,19 +48,21 @@ class RoomServiceTest {
                 2,
                 BedType.DOUBLE_BED,
                 1200);
+        room1.setId(1L);
 
         room2 = new Room(
                 "112",
                 1,
                 BedType.SINGLE_BED,
                 800);
+        room2.setId(2L);
 
         room3 = new Room(
                 "113",
                 3,
                 BedType.SUITE,
-                1500
-        );
+                1500);
+        room3.setId(3L);
 
         fakeRooms = List.of(room1, room2, room3);
 
@@ -109,7 +115,19 @@ class RoomServiceTest {
     void updateRoom_shouldUpdateAndReturnRoom(){}
 
     @Test
-    void deleteRoom_shouldDeleteRoom(){}
+    void deleteRoom_shouldDeleteRoom(){
+        //Arrange
+        when(bookingRepository.findByRoomIdAndStatus(
+                1L, BookingStatus.ACTIVE)).thenReturn(Collections.emptyList());
+
+        when(roomRepository.findById(1L)).thenReturn(Optional.of(room1));
+
+        //Act
+        roomService.deleteRoom(1L);
+
+        //Assert
+        verify(roomRepository, times(1)).delete(room1);
+    }
 
     @Test
     void deleteRoom_shouldThrowBadRequestExceptionWhenActiveBookingsExist(){}
