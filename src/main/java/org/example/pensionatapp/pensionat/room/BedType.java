@@ -4,6 +4,5 @@ public enum BedType {
 
     SINGLE_BED,
     DOUBLE_BED,
-    TWIN_ROOM,
-    SUITE
+    TWIN_ROOM
 }
