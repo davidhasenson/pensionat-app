@@ -31,13 +31,6 @@ public class Customer {
 
     private String phone;
 
-   // @NotBlank(message = "Lösenord måste anges")
-   // @Column(nullable = false)
-    private String password;
-
-//    @OneToMany(mappedBy = "customer")
-//    private List<Booking> bookings = new ArrayList<>();
-
     public Customer() {
     }
 
@@ -46,14 +39,6 @@ public class Customer {
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
-    }
-
-    public Customer(String firstName, String lastName, String email, String phone, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phone = phone;
-        this.password = password;
     }
 
     public long getId() {
@@ -96,19 +81,4 @@ public class Customer {
         this.phone = phone;
     }
 
-//    public List<Booking> getBookings() {
-//        return bookings;
-//    }
-//
-//    public void setBookings(List<Booking> bookings) {
-//        this.bookings = bookings;
-//    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

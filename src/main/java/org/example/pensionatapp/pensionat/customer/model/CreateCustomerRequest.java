@@ -14,8 +14,5 @@ public record CreateCustomerRequest(
         @Email(message = "E-post måste vara giltig")
         String email,
 
-        String phone,
-
-       // @NotBlank(message = "Lösenord måste anges")
-        String password) {
+        String phone) {
 }
