@@ -2,6 +2,8 @@ package org.example.pensionatapp.pensionat.customer.seeder;
 
 import org.example.pensionatapp.pensionat.customer.model.Customer;
 import org.example.pensionatapp.pensionat.customer.repository.CustomerRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Component;
 @Component
 @Order(value = 2)
 public class CustomerSeeder implements CommandLineRunner {
+
+    private static final Logger logger = LoggerFactory.getLogger(CustomerSeeder.class);
 
     private CustomerRepository customerRepository;
 
@@ -18,7 +22,10 @@ public class CustomerSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        logger.info("Checking if database needs to be seeded with customers...");
         if (customerRepository.count() == 0) {
+            logger.info("Database is empty. Seeding 10 test customers from Middle-earth...");
+
             customerRepository.save(new Customer("Frodo", "Baggins", "frodo@theshire.me", "0761112233"));
             customerRepository.save(new Customer("Samwise", "Gamgee", "sam@theshire.me", "0762223344"));
             customerRepository.save(new Customer("Gandalf", "the Grey", "gandalf@istari.org", "0700000000"));
@@ -29,10 +36,12 @@ public class CustomerSeeder implements CommandLineRunner {
             customerRepository.save(new Customer("Smeagol", "Gollum", "my.precious@cave.com", "0706666666"));
             customerRepository.save(new Customer("Lady", "Galadriel", "galadriel@lothlorien.com", "0737777777"));
             customerRepository.save(new Customer("Lord", "Elrond", "elrond@rivendell.com", "0738888888"));
+
+            logger.info("Customer database seeding completed successfully.");
+        } else {
+            logger.info("Database already contains customer data. Skipping seeding.");
         }
     }
-
-
 
 
 }
