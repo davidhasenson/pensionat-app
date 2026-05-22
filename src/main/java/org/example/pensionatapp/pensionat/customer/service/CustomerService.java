@@ -36,6 +36,16 @@ public class CustomerService {
         );
     }
 
+    public Customer getCustomerByEmail(String email) {
+        //   logger.info("Fetching customer with email: {}", email);
+        return customerRepository.findByEmail(email).orElseThrow(
+                () -> {
+                    //     logger.warn("Fetch failed: Customer with email {} not found", email);
+                    return new NotFoundException("Kunden hittades inte");
+                }
+        );
+    }
+
     @Transactional
     public Customer createCustomer(CreateCustomerRequest request) {
         Customer customer = new Customer(request.firstName(), request.lastName(), request.email(), request.phone());

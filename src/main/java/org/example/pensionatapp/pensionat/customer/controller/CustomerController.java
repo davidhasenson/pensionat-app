@@ -35,6 +35,13 @@ public class CustomerController {
         return ResponseEntity.ok().body(customer);
     }
 
+    @GetMapping("/by-email")
+    public ResponseEntity<Customer> getCustomerByEmail(@RequestParam String email) {
+        //logger.info("Received HTTP GET request to fetch customer by email: {}", email);
+        Customer customer = customerService.getCustomerByEmail(email);
+        return ResponseEntity.ok().body(customer);
+    }
+
     @PostMapping
     public ResponseEntity<Customer> createCustomer(@RequestBody @Valid CreateCustomerRequest request) {
         Customer created = customerService.createCustomer(request);
