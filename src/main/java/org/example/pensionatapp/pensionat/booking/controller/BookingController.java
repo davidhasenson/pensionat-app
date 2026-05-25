@@ -35,7 +35,7 @@ public class BookingController {
     @ResponseStatus(HttpStatus.CREATED)
     public Booking createBooking(@RequestBody @Valid CreateBookingRequest request) {
         return bookingService.createBooking(
-                request.customerId(),
+                request.customerEmail(),
                 request.roomId(),
                 request.startDate(),
                 request.endDate()

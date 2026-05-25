@@ -47,6 +47,13 @@ public class CustomerController {
         return ResponseEntity.ok().body(customer);
     }
 
+    @PutMapping("/email/{email}")
+    public ResponseEntity<Customer> updateCustomer(@PathVariable String email, @Valid @RequestBody UpdateCustomerRequest request) {
+        logger.info("Received PUT request to /api/customers/email/{} to update customer", email);
+        Customer updatedCustomer = customerService.updateCustomerByEmail(email, request);
+        return ResponseEntity.ok(updatedCustomer);
+    }
+
     @PostMapping
     public ResponseEntity<Customer> createCustomer(@RequestBody @Valid CreateCustomerRequest request) {
         logger.info("Received HTTP POST request to create customer with email: {}", request.email());
