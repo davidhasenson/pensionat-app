@@ -62,8 +62,8 @@ class RoomServiceTest {
 
         room3 = new Room(
                 "113",
-                3,
-                BedType.SUITE,
+                2,
+                BedType.TWIN_ROOM,
                 1500);
         room3.setId(3L);
 
