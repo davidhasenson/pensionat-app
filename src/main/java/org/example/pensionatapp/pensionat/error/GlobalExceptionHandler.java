@@ -39,4 +39,35 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
+
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<Map<String, Object>> handleBadRequestException(
+            BadRequestException ex, HttpServletRequest request) {
+
+        Map<String, Object> responseBody = new HashMap<>();
+
+        responseBody.put("timestamp", Instant.now().toString());
+        responseBody.put("status", HttpStatus.BAD_REQUEST.value());
+        responseBody.put("error", "Bad Request");
+        responseBody.put("message", ex.getMessage()); // Här hamnar din svenska text!
+        responseBody.put("path", request.getRequestURI());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleNotFoundException(
+            NotFoundException ex, HttpServletRequest request) {
+
+        Map<String, Object> responseBody = new HashMap<>();
+        responseBody.put("timestamp", Instant.now().toString());
+        responseBody.put("status", HttpStatus.NOT_FOUND.value()); // 404 Not Found!
+        responseBody.put("error", "Not Found");
+        responseBody.put("message", ex.getMessage()); // "Rum med id X hittades inte"
+        responseBody.put("path", request.getRequestURI());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
+    }
+
 }
