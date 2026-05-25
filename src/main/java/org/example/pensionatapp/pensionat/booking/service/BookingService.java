@@ -116,7 +116,7 @@ public class BookingService {
                 );
 
         if (roomIsBooked) {
-            throw new IllegalStateException("Rummet är redan bokat under valt datumintervall");
+            throw new BadRequestException("Rummet är redan bokat under valt datumintervall");
         }
     }
 
