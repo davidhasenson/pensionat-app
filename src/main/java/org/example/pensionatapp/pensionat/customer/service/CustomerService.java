@@ -1,7 +1,6 @@
 package org.example.pensionatapp.pensionat.customer.service;
 
 import jakarta.transaction.Transactional;
-import org.apache.coyote.Response;
 import org.example.pensionatapp.pensionat.booking.model.Booking;
 import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
 import org.example.pensionatapp.pensionat.customer.model.CreateCustomerRequest;
@@ -58,7 +57,7 @@ public class CustomerService {
     @Transactional
     public Customer createCustomer(CreateCustomerRequest request) {
         logger.info("Attempting to create a new customer with email: {}", request.email());
-        Customer customer = new Customer(request.firstName(), request.lastName(), request.email(), request.phone(), request.password());
+        Customer customer = new Customer(request.firstName(), request.lastName(), request.email(), request.phone());
         Customer savedCustomer = customerRepository.save(customer);
         logger.info("Customer successfully created with ID: {}", savedCustomer.getId());
         return savedCustomer;
