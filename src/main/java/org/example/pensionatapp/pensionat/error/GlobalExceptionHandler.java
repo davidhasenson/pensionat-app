@@ -40,18 +40,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
-
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<Map<String, Object>> handleBadRequestException(
             BadRequestException ex, HttpServletRequest request) {
 
-        Map<String, Object> responseBody = new HashMap<>();
-
-        responseBody.put("timestamp", Instant.now().toString());
-        responseBody.put("status", HttpStatus.BAD_REQUEST.value());
-        responseBody.put("error", "Bad Request");
-        responseBody.put("message", ex.getMessage()); // Här hamnar din svenska text!
-        responseBody.put("path", request.getRequestURI());
+        Map<String, Object> responseBody = createBaseResponse(HttpStatus.BAD_REQUEST, request);
+        responseBody.put("message", ex.getMessage());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
@@ -60,14 +54,28 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, Object>> handleNotFoundException(
             NotFoundException ex, HttpServletRequest request) {
 
-        Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("timestamp", Instant.now().toString());
-        responseBody.put("status", HttpStatus.NOT_FOUND.value()); // 404 Not Found!
-        responseBody.put("error", "Not Found");
-        responseBody.put("message", ex.getMessage()); // "Rum med id X hittades inte"
-        responseBody.put("path", request.getRequestURI());
+        Map<String, Object> responseBody = createBaseResponse(HttpStatus.NOT_FOUND, request);
+        responseBody.put("message", ex.getMessage());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<Map<String, Object>> handleIllegalStateException(
+            IllegalStateException ex, HttpServletRequest request) {
+
+        Map<String, Object> responseBody = createBaseResponse(HttpStatus.BAD_REQUEST, request);
+        responseBody.put("message", ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
+    private Map<String, Object> createBaseResponse(HttpStatus status, HttpServletRequest request) {
+        Map<String, Object> responseBody = new HashMap<>();
+        responseBody.put("timestamp", Instant.now().toString());
+        responseBody.put("status", status.value());
+        responseBody.put("error", status.getReasonPhrase());
+        responseBody.put("path", request.getRequestURI());
+        return responseBody;
+    }
 }
