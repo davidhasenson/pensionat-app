@@ -1,7 +1,7 @@
 package org.example.pensionatapp.pensionat.booking.controller;
 
 import jakarta.validation.Valid;
-import org.example.pensionatapp.pensionat.booking.model.Booking;
+import org.example.pensionatapp.pensionat.booking.model.BookingResponse;
 import org.example.pensionatapp.pensionat.booking.model.CreateBookingRequest;
 import org.example.pensionatapp.pensionat.booking.service.BookingService;
 import org.springframework.http.HttpStatus;
@@ -22,18 +22,18 @@ public class BookingController {
     }
 
     @GetMapping("/{id}")
-    public Booking getBookingById(@PathVariable Long id) {
+    public BookingResponse getBookingById(@PathVariable Long id) {
         return bookingService.getBookingById(id);
     }
 
     @GetMapping
-    public List<Booking> getAllBookings() {
+    public List<BookingResponse> getAllBookings() {
         return bookingService.getAllBookings();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Booking createBooking(@RequestBody @Valid CreateBookingRequest request) {
+    public BookingResponse createBooking(@RequestBody @Valid CreateBookingRequest request) {
         return bookingService.createBooking(
                 request.customerEmail(),
                 request.roomId(),
@@ -44,7 +44,7 @@ public class BookingController {
     }
 
     @PutMapping("/{id}")
-    public Booking updateBooking(
+    public BookingResponse updateBooking(
             @PathVariable Long id,
             @RequestBody @Valid CreateBookingRequest request
     ) {
@@ -57,7 +57,7 @@ public class BookingController {
     }
 
     @PatchMapping("/{id}/cancel")
-    public Booking cancelBooking(@PathVariable Long id) {
+    public BookingResponse cancelBooking(@PathVariable Long id) {
         return bookingService.cancelBooking(id);
     }
 }
