@@ -51,19 +51,20 @@ public class RoomService {
         return roomRepository.save(room);
     }
 
-    public Room getRoomById(long id) {
+    public RoomResponse getRoomById(long id) {
         logger.info("Fetching after id: {}", id);
-        return roomRepository.findById(id).orElseThrow(()
+        Room room = roomRepository.findById(id).orElseThrow(()
                 -> {
                 logger.warn("Room with id{} not found", id);
                 return new NotFoundException("Rum med id " + id + " hittades inte.");
         });
+        return convertToRoomResponses(List.of(room)).get(0);
     }
 
     public Room updateRoom(long id, String roomNumber, int beds, BedType bedType, int pricePerNight) {
 
         logger.info("Updating room with id: {} ", id);
-        Room room = getRoomById(id);
+        Room room = findRoomById(id);
 
         room.setRoomNumber(roomNumber);
         room.setBeds(beds);
@@ -76,7 +77,7 @@ public class RoomService {
 
     public void deleteRoom(long id) {
         logger.info("Deleting room with id: {}", id);
-        Room room = getRoomById(id);
+        Room room = findRoomById(id);
 
         if (!bookingRepository.findByRoomIdAndStatus(id, BookingStatus.ACTIVE).isEmpty()) {
             logger.warn("Room with id{} has already been booked", id);
@@ -124,6 +125,16 @@ public class RoomService {
             ));
         }
         return responses;
+    }
+
+    private Room findRoomById(long id) {
+        logger.info("Finding room with id: {}", id);
+        return roomRepository.findById(id).orElseThrow(()
+        -> {
+                    logger.warn("Room with id{} not found", id);
+                    return new NotFoundException("Rummet med id " + id + "hittades inte");
+
+        });
     }
 
 }
