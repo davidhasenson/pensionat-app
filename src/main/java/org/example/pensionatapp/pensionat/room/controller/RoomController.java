@@ -39,7 +39,7 @@ public class RoomController {
     }
 
     @PostMapping
-    public ResponseEntity<RoomResponse> createRoom(@RequestBody @Valid CreateRoomRequest request) {
+    public ResponseEntity<RoomResponse> createRoom(@Valid @RequestBody CreateRoomRequest request) {
         logger.info("Received HTTP POST request to create room");
         return ResponseEntity.ok(roomService.createRoom(
                 request.roomNumber(),
@@ -49,7 +49,7 @@ public class RoomController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RoomResponse> updateRoom(@PathVariable long id, @RequestBody @Valid UpdateRoomRequest request) {
+    public ResponseEntity<RoomResponse> updateRoom(@PathVariable long id, @Valid @RequestBody UpdateRoomRequest request) {
         logger.info("Received HTTP PUT request to update room with ID: {}", id);
         return ResponseEntity.ok(roomService.updateRoom(
                 id,
