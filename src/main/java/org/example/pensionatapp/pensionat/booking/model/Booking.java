@@ -35,7 +35,7 @@ public class Booking {
     private BookingStatus status;
 
     @Column(columnDefinition = "boolean default false")
-    private boolean extraBedIncluded;
+    private boolean extraBedIncluded = false;
 
     protected Booking() {
     }
