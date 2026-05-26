@@ -198,7 +198,8 @@ public class BookingService {
         return new BookingResponse(
                 booking.getId(),
                 booking.getCustomer().getEmail(),
-                booking.getCustomer().getFirstName() + " " + booking.getCustomer().getLastName(),
+                booking.getCustomer().getFirstName(),
+                booking.getCustomer().getLastName(),
                 booking.getRoom().getId(),
                 booking.getRoom().getRoomNumber(),
                 booking.getStartDate(),
