@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import org.example.pensionatapp.pensionat.booking.BookingStatus;
 import org.example.pensionatapp.pensionat.booking.model.Booking;
 import org.example.pensionatapp.pensionat.booking.model.BookingResponse;
+import org.example.pensionatapp.pensionat.booking.model.UpdateBookingRequest;
 import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
 import org.example.pensionatapp.pensionat.customer.model.Customer;
 import org.example.pensionatapp.pensionat.customer.repository.CustomerRepository;
@@ -62,7 +63,7 @@ public class BookingService {
                     logger.warn("Room not found with ID: {}", roomId);
                     return new NotFoundException("Rummet finns inte");
                 });
-        
+
         if (extraBedRequested && room.getBedType() != BedType.DOUBLE_BED) {
             throw new BadRequestException("Extrasäng kan endast bokas i dubbelrum.");
         }
@@ -78,44 +79,51 @@ public class BookingService {
     }
 
     @Transactional
-    public BookingResponse updateBooking(Long bookingId, Long roomId, LocalDate startDate, LocalDate endDate) {
-        logger.info("Updating booking with ID: {}, new room ID: {}, dates: {} to {}",
-                bookingId, roomId, startDate, endDate);
+    public BookingResponse updateBooking(Long bookingId, UpdateBookingRequest request) {
+        logger.info("Attempting to update booking with ID: {}", bookingId);
 
-        validateDates(startDate, endDate);
+        validateDates(request.startDate(), request.endDate());
 
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> {
-                    logger.warn("Booking not found with ID: {}", bookingId);
+                    logger.warn("Update failed: Booking not found with ID: {}", bookingId);
                     return new NotFoundException("Bokningen finns inte");
                 });
 
-        Room room = roomRepository.findById(roomId)
+        if (booking.getStatus() == BookingStatus.CANCELLED) {
+            throw new IllegalStateException("Det går inte att ändra en avbokad reservation.");
+        }
+
+        Room room = roomRepository.findById(request.roomId())
                 .orElseThrow(() -> {
-                    logger.warn("Room not found with ID: {}", roomId);
-                    return new NotFoundException("Rummet finns inte");
+                    logger.warn("Room not found with ID: {}", request.roomId());
+                    return new NotFoundException("Det nya rummet hittades inte");
                 });
 
         boolean roomIsBooked = bookingRepository
                 .existsByRoomIdAndStatusAndStartDateLessThanAndEndDateGreaterThanAndIdNot(
-                        roomId,
+                        request.roomId(),
                         BookingStatus.ACTIVE,
-                        endDate,
-                        startDate,
+                        request.endDate(),
+                        request.startDate(),
                         bookingId
                 );
 
         if (roomIsBooked) {
-            logger.warn("Update failed. Room ID {} is already booked between {} and {}", roomId, startDate, endDate);
+            logger.warn("Update failed. Room ID {} is already booked between {} and {}", request.roomId(), request.startDate(), request.endDate());
             throw new BadRequestException("Rummet är redan bokat under valt datumintervall");
         }
 
+        if (request.extraBedRequested() && room.getBedType() != BedType.DOUBLE_BED) {
+            throw new BadRequestException("Extrasäng kan endast bokas i dubbelrum.");
+        }
+
         booking.setRoom(room);
-        booking.setStartDate(startDate);
-        booking.setEndDate(endDate);
+        booking.setStartDate(request.startDate());
+        booking.setEndDate(request.endDate());
+        booking.setExtraBedRequested(request.extraBedRequested());
 
         Booking savedBooking = bookingRepository.save(booking);
-
         logger.info("Booking with ID {} updated successfully", savedBooking.getId());
 
         return convertToBookingResponse(savedBooking);
@@ -210,7 +218,7 @@ public class BookingService {
                 booking.getStartDate(),
                 booking.getEndDate(),
                 booking.getStatus().name(),
-                booking.isExtraBedIncluded()
+                booking.isExtraBedRequested()
         );
     }
 }
