@@ -43,12 +43,12 @@ public class RoomService {
         return convertToRoomResponses(rooms);
     }
 
-    public Room createRoom(String roomNumber, int beds, BedType bedType, int pricePerNight) {
+    public RoomResponse createRoom(String roomNumber, int beds, BedType bedType, int pricePerNight) {
         logger.info("Creating room with number: {} ",roomNumber);
         Room room = new Room(roomNumber, beds, bedType, pricePerNight);
-
+        Room savedRoom = roomRepository.save(room);
         logger.info("Created room with number: {}", roomNumber);
-        return roomRepository.save(room);
+        return convertToRoomResponses(List.of(savedRoom)).get(0);
     }
 
     public RoomResponse getRoomById(long id) {
@@ -132,7 +132,7 @@ public class RoomService {
         return roomRepository.findById(id).orElseThrow(()
         -> {
                     logger.warn("Room with id{} not found", id);
-                    return new NotFoundException("Rummet med id " + id + "hittades inte");
+                    return new NotFoundException("Rummet med id " + id + " hittades inte");
 
         });
     }

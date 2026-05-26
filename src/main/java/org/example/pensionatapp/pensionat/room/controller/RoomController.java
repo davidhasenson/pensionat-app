@@ -6,7 +6,6 @@ import org.example.pensionatapp.pensionat.room.model.Room;
 import org.example.pensionatapp.pensionat.room.model.RoomResponse;
 import org.example.pensionatapp.pensionat.room.model.UpdateRoomRequest;
 import org.example.pensionatapp.pensionat.room.service.RoomService;
-import org.example.pensionatapp.pensionat.util.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -28,25 +27,25 @@ public class RoomController {
     }
 
     @GetMapping
-    public List<RoomResponse> getAllRooms() {
+    public ResponseEntity<List<RoomResponse>> getAllRooms() {
         logger.info("Getting all rooms");
-        return roomService.getAllRooms();
+        return ResponseEntity.ok( roomService.getAllRooms());
     }
 
     @GetMapping("/{id}")
-    public Room getRoomById(@PathVariable long id) {
+    public ResponseEntity<RoomResponse> getRoomById(@PathVariable long id) {
         logger.info("Getting room with id {}", id);
-        return roomService.getRoomById(id);
+        return ResponseEntity.ok( roomService.getRoomById(id));
     }
 
     @PostMapping
-    public Room createRoom(@RequestBody @Valid CreateRoomRequest request) {
+    public ResponseEntity<RoomResponse> createRoom(@RequestBody @Valid CreateRoomRequest request) {
         logger.info("Creating room {}", request);
-        return roomService.createRoom(
+        return ResponseEntity.ok(roomService.createRoom(
                 request.roomNumber(),
                 request.beds(),
                 request.bedType(),
-                request.pricePerNight());
+                request.pricePerNight()));
     }
 
     @PutMapping("/{id}")
