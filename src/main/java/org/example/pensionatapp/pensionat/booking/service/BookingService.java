@@ -7,6 +7,7 @@ import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
 import org.example.pensionatapp.pensionat.customer.model.Customer;
 import org.example.pensionatapp.pensionat.customer.repository.CustomerRepository;
 import org.example.pensionatapp.pensionat.error.NotFoundException;
+import org.example.pensionatapp.pensionat.room.BedType;
 import org.example.pensionatapp.pensionat.room.model.Room;
 import org.example.pensionatapp.pensionat.room.repository.RoomRepository;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class BookingService {
     }
 
     @Transactional
-    public Booking createBooking(String customerEmail, Long roomId, LocalDate startDate, LocalDate endDate) {
+    public Booking createBooking(String customerEmail, Long roomId, LocalDate startDate, LocalDate endDate,boolean extraBedRequested) {
         validateDates(startDate, endDate);
 
         Customer customer = customerRepository.findByEmail(customerEmail)
@@ -42,9 +43,13 @@ public class BookingService {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new NotFoundException("Rummet finns inte"));
 
+        if (extraBedRequested && room.getBedType() != BedType.DOUBLE_BED) {
+            throw new BadRequestException("Extrasäng kan endast bokas i dubbelrum.");
+        }
+
         checkRoomAvailability(roomId, startDate, endDate);
 
-        Booking booking = new Booking(customer, room, startDate, endDate, BookingStatus.ACTIVE);
+        Booking booking = new Booking(customer, room, startDate, endDate, BookingStatus.ACTIVE,extraBedRequested);
 
         return bookingRepository.save(booking);
     }

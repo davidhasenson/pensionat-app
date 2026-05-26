@@ -45,10 +45,10 @@ public class CustomerService {
     }
 
     public Customer getCustomerByEmail(String email) {
-        //   logger.info("Fetching customer with email: {}", email);
+        logger.info("Fetching customer with email: {}", email);
         return customerRepository.findByEmail(email).orElseThrow(
                 () -> {
-                    //     logger.warn("Fetch failed: Customer with email {} not found", email);
+                    logger.warn("Fetch failed: Customer with email {} not found", email);
                     return new NotFoundException("Kunden hittades inte");
                 }
         );
@@ -86,9 +86,7 @@ public class CustomerService {
 
         Customer customer = customerRepository.findByEmail(email)
                 .orElseThrow(() -> {
-                    // Logga varningen på engelska för backend
                     logger.warn("Update failed: No customer found with email: {}", email);
-                    // Kasta undantaget på svenska för frontend
                     return new NotFoundException("Ingen kund hittades med e-postadressen: " + email);
                 });
 
@@ -99,7 +97,6 @@ public class CustomerService {
         Customer updatedCustomer = customerRepository.save(customer);
 
         logger.info("Customer details successfully updated for customer ID: {} (Email: {})", updatedCustomer.getId(), email);
-
         return updatedCustomer;
     }
 
@@ -127,5 +124,4 @@ public class CustomerService {
         customerRepository.delete(customer);
         logger.info("Customer with ID {} was successfully deleted", id);
     }
-
 }

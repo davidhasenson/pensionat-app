@@ -34,15 +34,19 @@ public class Booking {
     @Enumerated(EnumType.STRING)
     private BookingStatus status;
 
+    @Column(columnDefinition = "boolean default false")
+    private boolean extraBedIncluded = false;
+
     protected Booking() {
     }
 
-    public Booking(Customer customer, Room room, LocalDate startDate, LocalDate endDate, BookingStatus status) {
+    public Booking(Customer customer, Room room, LocalDate startDate, LocalDate endDate, BookingStatus status, boolean extraBedIncluded) {
         this.customer = customer;
         this.room = room;
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
+        this.extraBedIncluded = extraBedIncluded;
     }
 
     public Long getId() {
@@ -87,5 +91,13 @@ public class Booking {
 
     public void setStatus(BookingStatus status) {
         this.status = status;
+    }
+
+    public boolean isExtraBedIncluded() {
+        return extraBedIncluded;
+    }
+
+    public void setExtraBedIncluded(boolean extraBedIncluded) {
+        this.extraBedIncluded = extraBedIncluded;
     }
 }
