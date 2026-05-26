@@ -48,6 +48,10 @@ public class BookingService {
 
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new NotFoundException("Rummet finns inte"));
+        
+        if (extraBedRequested && room.getBedType() != BedType.DOUBLE_BED) {
+            throw new BadRequestException("Extrasäng kan endast bokas i dubbelrum.");
+        }
 
         checkRoomAvailability(roomId, startDate, endDate);
 
