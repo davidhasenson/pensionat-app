@@ -8,6 +8,7 @@ import org.example.pensionatapp.pensionat.error.BadRequestException;
 import org.example.pensionatapp.pensionat.room.BedType;
 import org.example.pensionatapp.pensionat.room.model.CreateRoomRequest;
 import org.example.pensionatapp.pensionat.room.model.Room;
+import org.example.pensionatapp.pensionat.room.model.RoomResponse;
 import org.example.pensionatapp.pensionat.room.repository.RoomRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -92,7 +93,7 @@ class RoomServiceTest {
         when(roomRepository.save(any(Room.class))).thenReturn(room1);
 
         //Act
-        Room result = roomService.createRoom(
+        RoomResponse result = roomService.createRoom(
                 request.roomNumber(),
                 request.beds(),
                 request.bedType(),
@@ -101,11 +102,11 @@ class RoomServiceTest {
 
         //Assert
         assertNotNull(result, "Can't be null");
-        assertEquals(room1, result);
+        assertEquals(room1.getRoomNumber(), result.roomNumber());
+        assertEquals(room1.getBeds(), result.beds());
+        assertEquals(room1.getPricePerNight(), result.pricePerNight());
 
         verify(roomRepository, times(1)).save(any());
-
-
     }
 
     @Test
