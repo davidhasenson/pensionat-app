@@ -29,16 +29,19 @@ public class RoomController {
 
     @GetMapping
     public List<RoomResponse> getAllRooms() {
+        logger.info("Getting all rooms");
         return roomService.getAllRooms();
     }
 
     @GetMapping("/{id}")
     public Room getRoomById(@PathVariable long id) {
+        logger.info("Getting room with id {}", id);
         return roomService.getRoomById(id);
     }
 
     @PostMapping
     public Room createRoom(@RequestBody @Valid CreateRoomRequest request) {
+        logger.info("Creating room {}", request);
         return roomService.createRoom(
                 request.roomNumber(),
                 request.beds(),
@@ -48,6 +51,7 @@ public class RoomController {
 
     @PutMapping("/{id}")
     public Room updateRoom(@PathVariable long id, @RequestBody @Valid UpdateRoomRequest request) {
+        logger.info("Updating room {}", request);
         return roomService.updateRoom(
                 id,
                 request.roomNumber(),
@@ -58,6 +62,7 @@ public class RoomController {
 
     @DeleteMapping("/{id}")
     public void deleteRoom(@PathVariable long id) {
+        logger.info("Deleting room {}", id);
         roomService.deleteRoom(id);
     }
 

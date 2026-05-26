@@ -35,28 +35,34 @@ public class RoomService {
 
     public List<RoomResponse> getAllRooms() {
 
-        logger.info("Söker efter alla rum");
+        logger.info("Fetching all rooms");
         List<Room> rooms = roomRepository.findAll();
 
-        logger.info("Rum hittades");
+        logger.info("Rooms found");
 
         return convertToRoomResponses(rooms);
     }
 
     public Room createRoom(String roomNumber, int beds, BedType bedType, int pricePerNight) {
-
+        logger.info("Creating room with number: {} ",roomNumber);
         Room room = new Room(roomNumber, beds, bedType, pricePerNight);
 
+        logger.info("Created room with number: {}", roomNumber);
         return roomRepository.save(room);
     }
 
     public Room getRoomById(long id) {
+        logger.info("Fetching after id: {}", id);
         return roomRepository.findById(id).orElseThrow(()
-                -> new NotFoundException("Rum med id " + id + " hittades inte."));
+                -> {
+                logger.warn("Room with id{} not found", id);
+                return new NotFoundException("Rum med id " + id + " hittades inte.");
+        });
     }
 
     public Room updateRoom(long id, String roomNumber, int beds, BedType bedType, int pricePerNight) {
 
+        logger.info("Updating room with id: {} ", id);
         Room room = getRoomById(id);
 
         room.setRoomNumber(roomNumber);
@@ -64,15 +70,19 @@ public class RoomService {
         room.setBedType(bedType);
         room.setPricePerNight(pricePerNight);
 
+        logger.info("Updated room with id: {} ", id);
         return roomRepository.save(room);
     }
 
     public void deleteRoom(long id) {
+        logger.info("Deleting room with id: {}", id);
         Room room = getRoomById(id);
 
         if (!bookingRepository.findByRoomIdAndStatus(id, BookingStatus.ACTIVE).isEmpty()) {
+            logger.warn("Room with id{} has already been booked", id);
             throw new BadRequestException("Rummet har aktiva bokningar och kan inte tas bort.");
         }
+        logger.info("Deleted room with id: {} ", id);
         roomRepository.delete(room);
     }
 
