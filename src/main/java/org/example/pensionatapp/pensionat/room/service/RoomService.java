@@ -10,7 +10,6 @@ import org.example.pensionatapp.pensionat.room.BedType;
 import org.example.pensionatapp.pensionat.room.model.Room;
 import org.example.pensionatapp.pensionat.room.model.RoomResponse;
 import org.example.pensionatapp.pensionat.room.repository.RoomRepository;
-import org.example.pensionatapp.pensionat.util.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -90,7 +89,7 @@ public class RoomService {
 
     public List<RoomResponse> findAvailableRooms(LocalDate startDate, LocalDate endDate) {
         logger.info("Searching for available rooms between {} and {}", startDate, endDate);
-        DateUtil.validateDates(startDate, endDate);
+        validateDates(startDate, endDate);
 
         List<Booking> bookings = bookingRepository.findByStatusAndStartDateLessThanAndEndDateGreaterThan(
                 BookingStatus.ACTIVE, endDate, startDate
@@ -126,6 +125,20 @@ public class RoomService {
             ));
         }
         return responses;
+    }
+    public void validateDates(LocalDate startDate, LocalDate endDate) {
+        if (startDate == null || endDate == null) {
+            logger.warn("Validation failed: Start date or end date is missing");
+            throw new BadRequestException("Startdatum och slutdatum måste anges");
+        }
+        if (startDate.isBefore(LocalDate.now())) {
+            logger.warn("Validation failed: Start date {} is in the past", startDate);
+            throw new BadRequestException("Startdatum kan inte vara bakåt i tiden");
+        }
+        if (startDate.isAfter(endDate)) {
+            logger.warn("Validation failed: End date {} must be after start date {}", endDate, startDate);
+            throw new BadRequestException("Slutdatum måste vara efter startdatum");
+        }
     }
 
     private RoomResponse toRoomResponse(Room room) {
