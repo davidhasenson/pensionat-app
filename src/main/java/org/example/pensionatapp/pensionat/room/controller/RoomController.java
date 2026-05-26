@@ -28,19 +28,19 @@ public class RoomController {
 
     @GetMapping
     public ResponseEntity<List<RoomResponse>> getAllRooms() {
-        logger.info("Getting all rooms");
+        logger.info("Received HTTP GET request to fetch all rooms");
         return ResponseEntity.ok( roomService.getAllRooms());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<RoomResponse> getRoomById(@PathVariable long id) {
-        logger.info("Getting room with id {}", id);
+        logger.info("Received HTTP GET request to fetch room with ID: {}", id);
         return ResponseEntity.ok( roomService.getRoomById(id));
     }
 
     @PostMapping
     public ResponseEntity<RoomResponse> createRoom(@RequestBody @Valid CreateRoomRequest request) {
-        logger.info("Creating room {}", request);
+        logger.info("Received HTTP POST request to create room");
         return ResponseEntity.ok(roomService.createRoom(
                 request.roomNumber(),
                 request.beds(),
@@ -50,7 +50,7 @@ public class RoomController {
 
     @PutMapping("/{id}")
     public ResponseEntity<RoomResponse> updateRoom(@PathVariable long id, @RequestBody @Valid UpdateRoomRequest request) {
-        logger.info("Updating room {}", request);
+        logger.info("Received HTTP PUT request to update room with ID: {}", id);
         return ResponseEntity.ok(roomService.updateRoom(
                 id,
                 request.roomNumber(),
@@ -61,7 +61,7 @@ public class RoomController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRoom(@PathVariable long id) {
-        logger.info("Deleting room  with id {}", id);
+        logger.info("Received HTTP DELETE request to delete room with ID: {}", id);
         roomService.deleteRoom(id);
         return ResponseEntity.noContent().build();
     }
