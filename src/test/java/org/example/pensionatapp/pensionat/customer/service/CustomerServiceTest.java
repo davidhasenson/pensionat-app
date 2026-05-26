@@ -44,8 +44,7 @@ class CustomerServiceTest {
                 "Frodo",
                 "Bagger",
                 "frodo@pensionat.se",
-                "070-111",
-                "ring123"
+                "070-111"
         );
         customer1.setId(1L);
 
@@ -53,8 +52,7 @@ class CustomerServiceTest {
                 "Samweis",
                 "Gamdji",
                 "sam@pensionat.se",
-                "070-222",
-                "rep123"
+                "070-222"
         );
         customer2.setId(2L);
 
@@ -78,8 +76,7 @@ class CustomerServiceTest {
                 "Frodo",
                 "Bagger",
                 "frodo@pensionat.se",
-                "070-111",
-                "ring123"
+                "070-111"
         );
 
         when(customerRepository.save(any(Customer.class))).thenReturn(customer1);

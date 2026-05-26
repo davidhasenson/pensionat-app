@@ -33,11 +33,11 @@ public class BookingService {
     }
 
     @Transactional
-    public Booking createBooking(Long customerId, Long roomId, LocalDate startDate, LocalDate endDate) {
+    public Booking createBooking(String customerEmail, Long roomId, LocalDate startDate, LocalDate endDate) {
         validateDates(startDate, endDate);
 
-        Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new NotFoundException("Kunden finns inte"));
+        Customer customer = customerRepository.findByEmail(customerEmail)
+                .orElseThrow(() -> new NotFoundException("Ingen kund hittades med e-postadressen: " + customerEmail));
 
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new NotFoundException("Rummet finns inte"));

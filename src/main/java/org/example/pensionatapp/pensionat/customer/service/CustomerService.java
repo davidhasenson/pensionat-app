@@ -81,6 +81,29 @@ public class CustomerService {
     }
 
     @Transactional
+    public Customer updateCustomerByEmail(String email, UpdateCustomerRequest request) {
+        logger.info("Attempting to update customer details for email: {}", email);
+
+        Customer customer = customerRepository.findByEmail(email)
+                .orElseThrow(() -> {
+                    // Logga varningen på engelska för backend
+                    logger.warn("Update failed: No customer found with email: {}", email);
+                    // Kasta undantaget på svenska för frontend
+                    return new NotFoundException("Ingen kund hittades med e-postadressen: " + email);
+                });
+
+        customer.setFirstName(request.firstName());
+        customer.setLastName(request.lastName());
+        customer.setPhone(request.phone());
+
+        Customer updatedCustomer = customerRepository.save(customer);
+
+        logger.info("Customer details successfully updated for customer ID: {} (Email: {})", updatedCustomer.getId(), email);
+
+        return updatedCustomer;
+    }
+
+    @Transactional
     public void deleteCustomer(Long id) {
         logger.info("Attempting to delete customer with ID: {}", id);
         Customer customer = customerRepository.findById(id)

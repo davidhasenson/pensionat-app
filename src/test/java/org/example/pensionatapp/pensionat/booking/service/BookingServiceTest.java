@@ -70,12 +70,12 @@ class BookingServiceTest {
 
     @Test
     void createBooking_shouldSaveAndReturnBooking() {
-        Long customerId = 1L;
+        String customerEmail = "test@test.se";
         Long roomId = 1L;
         LocalDate startDate = LocalDate.now().plusDays(1);
         LocalDate endDate = LocalDate.now().plusDays(3);
 
-        when(customerRepository.findById(customerId)).thenReturn(Optional.of(customer));
+        when(customerRepository.findByEmail(customerEmail)).thenReturn(Optional.of(customer));
         when(roomRepository.findById(roomId)).thenReturn(Optional.of(room));
 
         when(bookingRepository.existsByRoomIdAndStatusAndStartDateLessThanAndEndDateGreaterThan(
@@ -87,26 +87,26 @@ class BookingServiceTest {
 
         when(bookingRepository.save(any(Booking.class))).thenReturn(booking);
 
-        Booking result = bookingService.createBooking(customerId, roomId, startDate, endDate);
+        Booking result = bookingService.createBooking(customerEmail, roomId, startDate, endDate);
 
         assertNotNull(result, "Bokningen borde inte vara null");
         assertEquals(customer, result.getCustomer(), "Kunden matchar inte");
         assertEquals(room, result.getRoom(), "Rummet matchar inte");
         assertEquals(BookingStatus.ACTIVE, result.getStatus(), "Status borde vara ACTIVE");
 
-        verify(customerRepository, times(1)).findById(customerId);
+        verify(customerRepository, times(1)).findByEmail(customerEmail);
         verify(roomRepository, times(1)).findById(roomId);
         verify(bookingRepository, times(1)).save(any(Booking.class));
     }
 
     @Test
     void createBooking_shouldThrowException_WhenRoomIsAlreadyBooked() {
-        Long customerId = 1L;
+        String customerEmail = "test@teat.se";
         Long roomId = 1L;
         LocalDate startDate = LocalDate.now().plusDays(1);
         LocalDate endDate = LocalDate.now().plusDays(3);
 
-        when(customerRepository.findById(customerId)).thenReturn(Optional.of(customer));
+        when(customerRepository.findByEmail(customerEmail)).thenReturn(Optional.of(customer));
         when(roomRepository.findById(roomId)).thenReturn(Optional.of(room));
 
         when(bookingRepository.existsByRoomIdAndStatusAndStartDateLessThanAndEndDateGreaterThan(
@@ -118,7 +118,7 @@ class BookingServiceTest {
 
         assertThrows(
                 IllegalStateException.class,
-                () -> bookingService.createBooking(customerId, roomId, startDate, endDate),
+                () -> bookingService.createBooking(customerEmail, roomId, startDate, endDate),
                 "Dubbelbokning borde kasta ett fel"
         );
 
