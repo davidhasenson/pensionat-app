@@ -33,8 +33,14 @@ public class RoomService {
         this.bookingRepository = bookingRepository;
     }
 
-    public List<Room> getAllRooms() {
-        return roomRepository.findAll();
+    public List<RoomResponse> getAllRooms() {
+
+        logger.info("Söker efter alla rum");
+        List<Room> rooms = roomRepository.findAll();
+
+        logger.info("Rum hittades");
+
+        return convertToRoomResponses(rooms);
     }
 
     public Room createRoom(String roomNumber, int beds, BedType bedType, int pricePerNight) {
