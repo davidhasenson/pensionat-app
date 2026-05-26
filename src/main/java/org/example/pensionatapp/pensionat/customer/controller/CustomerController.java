@@ -28,24 +28,24 @@ public class CustomerController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Customer>> getAllCustomers() {
+    public ResponseEntity<List<CustomerResponse>> getAllCustomers() {
         logger.info("Received HTTP GET request to fetch all customers.");
-        List<Customer> customers = customerService.getAllCustomers();
+        List<CustomerResponse> customers = customerService.getAllCustomers();
         return ResponseEntity.ok().body(customers);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Customer> getCustomer(@PathVariable long id) {
-        logger.info("Received HTTP GET request to fetch customer with ID: {}", id);
-        Customer customer = customerService.getCustomerById(id);
-        return ResponseEntity.ok().body(customer);
+    public ResponseEntity<CustomerResponse> getCustomer(@PathVariable long id) {
+        logger.info("Received HTTP GET request to fetch response with ID: {}", id);
+        CustomerResponse response = customerService.getCustomerById(id);
+        return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/by-email")
-    public ResponseEntity<Customer> getCustomerByEmail(@RequestParam String email) {
+    public ResponseEntity<CustomerResponse> getCustomerByEmail(@RequestParam String email) {
         logger.info("Received HTTP GET request to fetch customer by email: {}", email);
-        Customer customer = customerService.getCustomerByEmail(email);
-        return ResponseEntity.ok().body(customer);
+        CustomerResponse response = customerService.getCustomerByEmail(email);
+        return ResponseEntity.ok().body(response);
     }
 
     @PutMapping("/email/{email}")
@@ -70,9 +70,16 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCustomerById(@PathVariable Long id) {
         logger.info("Received HTTP DELETE request to delete customer with ID: {}", id);
-        customerService.deleteCustomer(id);
+        customerService.deleteCustomerById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/email/{email}")
+    public ResponseEntity<?> deleteCustomerByEmail(@PathVariable String email) {
+        logger.info("Received HTTP DELETE request to delete customer with email: {}", email);
+        customerService.deleteCustomerByEmail(email);
         return ResponseEntity.noContent().build();
     }
 }
