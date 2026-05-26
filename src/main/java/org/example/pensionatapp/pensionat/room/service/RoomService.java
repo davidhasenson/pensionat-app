@@ -48,20 +48,20 @@ public class RoomService {
         Room room = new Room(roomNumber, beds, bedType, pricePerNight);
         Room savedRoom = roomRepository.save(room);
         logger.info("Created room with number: {}", roomNumber);
-        return convertToRoomResponses(List.of(savedRoom)).get(0);
+        return toRoomResponse(savedRoom);
     }
 
     public RoomResponse getRoomById(long id) {
         logger.info("Fetching after id: {}", id);
         Room room = roomRepository.findById(id).orElseThrow(()
                 -> {
-                logger.warn("Room with id{} not found", id);
+                logger.warn("Room with id {} not found", id);
                 return new NotFoundException("Rum med id " + id + " hittades inte.");
         });
-        return convertToRoomResponses(List.of(room)).get(0);
+        return toRoomResponse(room);
     }
 
-    public Room updateRoom(long id, String roomNumber, int beds, BedType bedType, int pricePerNight) {
+    public RoomResponse updateRoom(long id, String roomNumber, int beds, BedType bedType, int pricePerNight) {
 
         logger.info("Updating room with id: {} ", id);
         Room room = findRoomById(id);
@@ -70,9 +70,10 @@ public class RoomService {
         room.setBeds(beds);
         room.setBedType(bedType);
         room.setPricePerNight(pricePerNight);
+        Room updatedRoom = roomRepository.save(room);
 
         logger.info("Updated room with id: {} ", id);
-        return roomRepository.save(room);
+        return toRoomResponse(updatedRoom);
     }
 
     public void deleteRoom(long id) {
@@ -125,6 +126,10 @@ public class RoomService {
             ));
         }
         return responses;
+    }
+
+    private RoomResponse toRoomResponse(Room room) {
+        return convertToRoomResponses(List.of(room)).get(0);
     }
 
     private Room findRoomById(long id) {

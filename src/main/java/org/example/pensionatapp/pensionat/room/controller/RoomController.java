@@ -49,20 +49,21 @@ public class RoomController {
     }
 
     @PutMapping("/{id}")
-    public Room updateRoom(@PathVariable long id, @RequestBody @Valid UpdateRoomRequest request) {
+    public ResponseEntity<RoomResponse> updateRoom(@PathVariable long id, @RequestBody @Valid UpdateRoomRequest request) {
         logger.info("Updating room {}", request);
-        return roomService.updateRoom(
+        return ResponseEntity.ok(roomService.updateRoom(
                 id,
                 request.roomNumber(),
                 request.beds(),
                 request.bedType(),
-                request.pricePerNight());
+                request.pricePerNight()));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteRoom(@PathVariable long id) {
-        logger.info("Deleting room {}", id);
+    public ResponseEntity<Void> deleteRoom(@PathVariable long id) {
+        logger.info("Deleting room  with id {}", id);
         roomService.deleteRoom(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/available")
