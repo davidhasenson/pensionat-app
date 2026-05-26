@@ -5,6 +5,7 @@ import org.example.pensionatapp.pensionat.booking.model.Booking;
 import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
 import org.example.pensionatapp.pensionat.customer.model.CreateCustomerRequest;
 import org.example.pensionatapp.pensionat.customer.model.Customer;
+import org.example.pensionatapp.pensionat.customer.model.CustomerResponse;
 import org.example.pensionatapp.pensionat.customer.model.UpdateCustomerRequest;
 import org.example.pensionatapp.pensionat.customer.repository.CustomerRepository;
 import org.example.pensionatapp.pensionat.error.NotFoundException;
@@ -55,33 +56,34 @@ public class CustomerService {
     }
 
     @Transactional
-    public Customer createCustomer(CreateCustomerRequest request) {
+    public CustomerResponse createCustomer(CreateCustomerRequest request) {
         logger.info("Attempting to create a new customer with email: {}", request.email());
         Customer customer = new Customer(request.firstName(), request.lastName(), request.email(), request.phone());
         Customer savedCustomer = customerRepository.save(customer);
         logger.info("Customer successfully created with ID: {}", savedCustomer.getId());
-        return savedCustomer;
+        return convertToCustomerResponse(savedCustomer);
     }
 
     @Transactional
-    public Customer updateCustomer(Long id, UpdateCustomerRequest request) {
+    public CustomerResponse updateCustomerById(Long id, UpdateCustomerRequest request) {
         logger.info("Attempting to update customer with ID: {}", id);
-        Customer existingCustomer = customerRepository.findById(id)
+        Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> {
                     logger.warn("Update failed: Customer with ID {} not found", id);
                     return new NotFoundException("Kunden hittades inte");
                 });
 
-        existingCustomer.setFirstName(request.firstName());
-        existingCustomer.setLastName(request.lastName());
-        existingCustomer.setPhone(request.phone());
+        customer.setFirstName(request.firstName());
+        customer.setLastName(request.lastName());
+        customer.setPhone(request.phone());
 
+        Customer updatedCustomer = customerRepository.save(customer);
         logger.info("Customer details successfully updated for ID: {}", id);
-        return customerRepository.save(existingCustomer);
+        return convertToCustomerResponse(updatedCustomer);
     }
 
     @Transactional
-    public Customer updateCustomerByEmail(String email, UpdateCustomerRequest request) {
+    public CustomerResponse updateCustomerByEmail(String email, UpdateCustomerRequest request) {
         logger.info("Attempting to update customer details for email: {}", email);
 
         Customer customer = customerRepository.findByEmail(email)
@@ -97,7 +99,7 @@ public class CustomerService {
         Customer updatedCustomer = customerRepository.save(customer);
 
         logger.info("Customer details successfully updated for customer ID: {} (Email: {})", updatedCustomer.getId(), email);
-        return updatedCustomer;
+        return convertToCustomerResponse(updatedCustomer);
     }
 
     @Transactional
@@ -124,4 +126,14 @@ public class CustomerService {
         customerRepository.delete(customer);
         logger.info("Customer with ID {} was successfully deleted", id);
     }
+    private CustomerResponse convertToCustomerResponse(Customer customer) {
+        return new CustomerResponse(
+                customer.getId(),
+                customer.getFirstName(),
+                customer.getLastName(),
+                customer.getEmail(),
+                customer.getPhone()
+        );
+    }
+
 }

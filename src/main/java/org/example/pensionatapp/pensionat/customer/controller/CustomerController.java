@@ -3,6 +3,7 @@ package org.example.pensionatapp.pensionat.customer.controller;
 import jakarta.validation.Valid;
 import org.example.pensionatapp.pensionat.customer.model.CreateCustomerRequest;
 import org.example.pensionatapp.pensionat.customer.model.Customer;
+import org.example.pensionatapp.pensionat.customer.model.CustomerResponse;
 import org.example.pensionatapp.pensionat.customer.model.UpdateCustomerRequest;
 import org.example.pensionatapp.pensionat.customer.service.CustomerService;
 import org.slf4j.Logger;
@@ -48,23 +49,23 @@ public class CustomerController {
     }
 
     @PutMapping("/email/{email}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable String email, @Valid @RequestBody UpdateCustomerRequest request) {
+    public ResponseEntity<CustomerResponse> updateCustomer(@PathVariable String email, @Valid @RequestBody UpdateCustomerRequest request) {
         logger.info("Received PUT request to /api/customers/email/{} to update customer", email);
-        Customer updatedCustomer = customerService.updateCustomerByEmail(email, request);
+        CustomerResponse updatedCustomer = customerService.updateCustomerByEmail(email, request);
         return ResponseEntity.ok(updatedCustomer);
     }
 
     @PostMapping
-    public ResponseEntity<Customer> createCustomer(@RequestBody @Valid CreateCustomerRequest request) {
+    public ResponseEntity<CustomerResponse> createCustomer(@RequestBody @Valid CreateCustomerRequest request) {
         logger.info("Received HTTP POST request to create customer with email: {}", request.email());
-        Customer created = customerService.createCustomer(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+        CustomerResponse response = customerService.createCustomer(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @Valid @RequestBody UpdateCustomerRequest request) {
+    public ResponseEntity<CustomerResponse> updateCustomer(@PathVariable Long id, @Valid @RequestBody UpdateCustomerRequest request) {
         logger.info("Received HTTP PUT request to update customer with ID: {}", id);
-        Customer updated = customerService.updateCustomer(id, request);
+        CustomerResponse updated = customerService.updateCustomerById(id, request);
         return ResponseEntity.ok(updated);
     }
 

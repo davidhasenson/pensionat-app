@@ -3,6 +3,7 @@ package org.example.pensionatapp.pensionat.customer.service;
 import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
 import org.example.pensionatapp.pensionat.customer.model.CreateCustomerRequest;
 import org.example.pensionatapp.pensionat.customer.model.Customer;
+import org.example.pensionatapp.pensionat.customer.model.CustomerResponse;
 import org.example.pensionatapp.pensionat.customer.model.UpdateCustomerRequest;
 import org.example.pensionatapp.pensionat.customer.repository.CustomerRepository;
 import org.example.pensionatapp.pensionat.error.NotFoundException;
@@ -83,15 +84,16 @@ class CustomerServiceTest {
 
         // Act
 
-        Customer result = customerService.createCustomer(request);
+        CustomerResponse result = customerService.createCustomer(request);
 
         // Assert
 
         assertNotNull(result, "Den skapade kunden borde inte vara null");
-        assertEquals(1L, result.getId(), "Kunden borde ha fått ID 1L från vår mock");
-        assertEquals("Frodo", result.getFirstName(), "Förnamnet matchar inte");
-        assertEquals("Bagger", result.getLastName(), "Efternamnet matchar inte");
-        assertEquals("frodo@pensionat.se", result.getEmail(), "E-posten matchar inte");
+        assertEquals(1L, result.id(), "Kunden borde ha fått ID 1L från vår mock");
+        assertEquals("Frodo", result.firstName(), "Förnamnet matchar inte");
+        assertEquals("Bagger", result.lastName(), "Efternamnet matchar inte");
+        assertEquals("frodo@pensionat.se", result.email(), "E-posten matchar inte");
+        assertEquals("070-111", result.phone(), "Telefonnumret matchar inte");
 
         verify(customerRepository, org.mockito.Mockito.times(1)).save(any(Customer.class));
 
@@ -119,17 +121,17 @@ class CustomerServiceTest {
 
         // Act
 
-        Customer result = customerService.updateCustomer(customerId, request);
+        CustomerResponse result = customerService.updateCustomerById(customerId, request);
 
         // Assert
         //              1. Förväntat    2. Faktiskt resultat    3. Felmeddelande
-        assertNotNull(result);
-        assertEquals("Bilbo", result.getFirstName(), "Förnamnet uppdaterades inte");
-        assertEquals("Bagger", result.getLastName(), "Efternamnet uppdaterades inte");
-        assertEquals("070-999", result.getPhone(), "Telefonnumret uppdaterades inte");
+        assertNotNull(result, "Det uppdaterade resultatet borde inte vara null");
+        assertEquals("Bilbo", result.firstName(), "Förnamnet uppdaterades inte");
+        assertEquals("Bagger", result.lastName(), "Efternamnet uppdaterades inte");
+        assertEquals("070-999", result.phone(), "Telefonnumret uppdaterades inte");
 
         // E-posten skickades inte med i din UpdateRequest, så den ska vara kvar som förut
-        assertEquals("frodo@pensionat.se", result.getEmail(), "E-posten ska inte ha ändrats");
+        assertEquals("frodo@pensionat.se", result.email(), "E-posten ska inte ha ändrats");
 
         verify(customerRepository, times(1)).findById(customerId);
         verify(customerRepository, times(1)).save(any(Customer.class));
@@ -148,7 +150,7 @@ class CustomerServiceTest {
         // Vi kontrollerar att rätt fel kallas, samt kollar felmeddelandet
         NotFoundException exception = assertThrows(
                 NotFoundException.class,
-                () -> customerService.updateCustomer(invalidId, request)
+                () -> customerService.updateCustomerById(invalidId, request)
         );
 
         assertEquals("Kunden hittades inte", exception.getMessage());
