@@ -2,6 +2,7 @@ package org.example.pensionatapp.pensionat.booking.service;
 
 import org.example.pensionatapp.pensionat.booking.BookingStatus;
 import org.example.pensionatapp.pensionat.booking.model.Booking;
+import org.example.pensionatapp.pensionat.booking.model.BookingResponse;
 import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
 import org.example.pensionatapp.pensionat.customer.model.Customer;
 import org.example.pensionatapp.pensionat.customer.repository.CustomerRepository;
@@ -90,12 +91,15 @@ class BookingServiceTest {
 
         when(bookingRepository.save(any(Booking.class))).thenReturn(booking);
 
-        Booking result = bookingService.createBooking(customerEmail, roomId, startDate, endDate, extraBedRequested );
-
+        BookingResponse result = bookingService.createBooking(customerEmail, roomId, startDate, endDate, extraBedRequested);
         assertNotNull(result, "Bokningen borde inte vara null");
-        assertEquals(customer, result.getCustomer(), "Kunden matchar inte");
-        assertEquals(room, result.getRoom(), "Rummet matchar inte");
-        assertEquals(BookingStatus.ACTIVE, result.getStatus(), "Status borde vara ACTIVE");
+        assertEquals("frodo@pensionat.se", result.customerEmail(), "Kundens e-post matchar inte");
+        assertEquals("Frodo", result.customerFirstName(), "Förnamnet matchar inte");
+        assertEquals("Bagger", result.customerLastName(), "Efternamnet matchar inte");
+        assertEquals(1L, result.roomId(), "Rummets ID matchar inte");
+        assertEquals("111", result.roomNumber(), "Rumsnumret matchar inte");
+        assertEquals("ACTIVE", result.status(), "Status borde vara ACTIVE");
+        assertFalse(result.extraBedIncluded(), "Extrasäng borde vara false");
 
         verify(customerRepository, times(1)).findByEmail(customerEmail);
         verify(roomRepository, times(1)).findById(roomId);
