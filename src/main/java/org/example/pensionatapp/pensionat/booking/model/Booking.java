@@ -34,6 +34,7 @@ public class Booking {
     @Enumerated(EnumType.STRING)
     private BookingStatus status;
 
+    @Column(columnDefinition = "boolean default false")
     private boolean extraBedIncluded;
 
     protected Booking() {
