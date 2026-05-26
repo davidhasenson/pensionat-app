@@ -61,7 +61,6 @@ public class BookingService {
                     logger.warn("Room not found with ID: {}", roomId);
                     return new NotFoundException("Rummet finns inte");
                 });
-                .orElseThrow(() -> new NotFoundException("Rummet finns inte"));
         
         if (extraBedRequested && room.getBedType() != BedType.DOUBLE_BED) {
             throw new BadRequestException("Extrasäng kan endast bokas i dubbelrum.");
