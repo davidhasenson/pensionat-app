@@ -129,7 +129,7 @@ public class CustomerService {
         boolean hasBooking = bookingRepository.existsByCustomerIdAndEndDateAfter(id, LocalDate.now());
         if (hasBooking) {
             logger.warn("Delete failed: Customer with ID {} has active bookings", id);
-            throw new IllegalStateException("Kunden har aktiva bokningar");
+            throw new IllegalStateException("Kunden har aktiva bokningar som måste avbokas innan den kan tas bort");
         }
 
         logger.info("Unlinking past bookings for customer ID: {}", id);
@@ -158,7 +158,7 @@ public class CustomerService {
         boolean hasBooking = bookingRepository.existsByCustomerIdAndEndDateAfter(customerId, LocalDate.now());
         if (hasBooking) {
             logger.warn("Delete failed: Customer with email {} (ID {}) has active bookings", email, customerId);
-            throw new IllegalStateException("Kunden har aktiva bokningar");
+            throw new IllegalStateException("Kunden har aktiva bokningar som måste avbokas innan den kan tas bort");
         }
 
         logger.info("Unlinking past bookings for customer email: {} (ID {})", email, customerId);
