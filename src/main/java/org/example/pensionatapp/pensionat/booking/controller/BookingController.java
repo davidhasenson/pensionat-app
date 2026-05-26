@@ -40,7 +40,7 @@ public class BookingController {
     }
 
     @PostMapping
-    public ResponseEntity<BookingResponse> createBooking(@RequestBody @Valid CreateBookingRequest request) {
+    public ResponseEntity<BookingResponse> createBooking(@Valid @RequestBody CreateBookingRequest request) {
         logger.info("Received HTTP POST request to create booking for customer email: {} and room ID: {}",
                 request.customerEmail(), request.roomId());
 
