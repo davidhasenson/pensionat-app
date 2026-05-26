@@ -27,42 +27,43 @@ public class RoomController {
     }
 
     @GetMapping
-    public List<RoomResponse> getAllRooms() {
-        logger.info("Getting all rooms");
-        return roomService.getAllRooms();
+    public ResponseEntity<List<RoomResponse>> getAllRooms() {
+        logger.info("Received HTTP GET request to fetch all rooms");
+        return ResponseEntity.ok( roomService.getAllRooms());
     }
 
     @GetMapping("/{id}")
-    public Room getRoomById(@PathVariable long id) {
-        logger.info("Getting room with id {}", id);
-        return roomService.getRoomById(id);
+    public ResponseEntity<RoomResponse> getRoomById(@PathVariable long id) {
+        logger.info("Received HTTP GET request to fetch room with ID: {}", id);
+        return ResponseEntity.ok( roomService.getRoomById(id));
     }
 
     @PostMapping
-    public Room createRoom(@RequestBody @Valid CreateRoomRequest request) {
-        logger.info("Creating room {}", request);
-        return roomService.createRoom(
+    public ResponseEntity<RoomResponse> createRoom(@RequestBody @Valid CreateRoomRequest request) {
+        logger.info("Received HTTP POST request to create room");
+        return ResponseEntity.ok(roomService.createRoom(
                 request.roomNumber(),
                 request.beds(),
                 request.bedType(),
-                request.pricePerNight());
+                request.pricePerNight()));
     }
 
     @PutMapping("/{id}")
-    public Room updateRoom(@PathVariable long id, @RequestBody @Valid UpdateRoomRequest request) {
-        logger.info("Updating room {}", request);
-        return roomService.updateRoom(
+    public ResponseEntity<RoomResponse> updateRoom(@PathVariable long id, @RequestBody @Valid UpdateRoomRequest request) {
+        logger.info("Received HTTP PUT request to update room with ID: {}", id);
+        return ResponseEntity.ok(roomService.updateRoom(
                 id,
                 request.roomNumber(),
                 request.beds(),
                 request.bedType(),
-                request.pricePerNight());
+                request.pricePerNight()));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteRoom(@PathVariable long id) {
-        logger.info("Deleting room {}", id);
+    public ResponseEntity<Void> deleteRoom(@PathVariable long id) {
+        logger.info("Received HTTP DELETE request to delete room with ID: {}", id);
         roomService.deleteRoom(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/available")
