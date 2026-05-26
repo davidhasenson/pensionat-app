@@ -12,8 +12,6 @@ public class DateUtil {
 
     private DateUtil() {
     }
-
-    // Metoden måste vara public static så att alla kan nå den utan att skapa ett objekt
     public static void validateDates(LocalDate startDate, LocalDate endDate) {
         if (startDate == null || endDate == null) {
             logger.warn("Validation failed: Start date or end date is missing");
@@ -23,7 +21,7 @@ public class DateUtil {
             logger.warn("Validation failed: Start date {} is in the past", startDate);
             throw new BadRequestException("Startdatum kan inte vara bakåt i tiden");
         }
-        if (!startDate.isBefore(endDate)) {
+        if (startDate.isAfter(endDate)) {
             logger.warn("Validation failed: End date {} must be after start date {}", endDate, startDate);
             throw new BadRequestException("Slutdatum måste vara efter startdatum");
         }

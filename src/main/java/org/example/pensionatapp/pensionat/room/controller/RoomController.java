@@ -6,6 +6,7 @@ import org.example.pensionatapp.pensionat.room.model.Room;
 import org.example.pensionatapp.pensionat.room.model.RoomResponse;
 import org.example.pensionatapp.pensionat.room.model.UpdateRoomRequest;
 import org.example.pensionatapp.pensionat.room.service.RoomService;
+import org.example.pensionatapp.pensionat.util.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,6 @@ import java.util.List;
 public class RoomController {
 
     private static final Logger logger = LoggerFactory.getLogger(RoomController.class);
-
     private final RoomService roomService;
 
     public RoomController(RoomService roomService) {
@@ -67,9 +67,12 @@ public class RoomController {
     }
 
     @GetMapping("/available")
-    public ResponseEntity<List<RoomResponse>> getAvailableRooms(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate) {
+    public ResponseEntity<List<RoomResponse>> getAvailableRooms(
+            @RequestParam LocalDate startDate,
+            @RequestParam LocalDate endDate) {
         logger.info("Received request to fetch available rooms between {} and {}", startDate, endDate);
         List<RoomResponse> availableRooms = roomService.findAvailableRooms(startDate, endDate);
+        logger.info("Found {} available rooms for the period {} to {}", availableRooms.size(), startDate, endDate);
         return ResponseEntity.ok().body(availableRooms);
     }
 
