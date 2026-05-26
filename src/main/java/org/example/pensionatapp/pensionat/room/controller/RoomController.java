@@ -6,7 +6,6 @@ import org.example.pensionatapp.pensionat.room.model.Room;
 import org.example.pensionatapp.pensionat.room.model.RoomResponse;
 import org.example.pensionatapp.pensionat.room.model.UpdateRoomRequest;
 import org.example.pensionatapp.pensionat.room.service.RoomService;
-import org.example.pensionatapp.pensionat.util.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
