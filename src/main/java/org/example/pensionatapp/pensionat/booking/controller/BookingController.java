@@ -38,7 +38,8 @@ public class BookingController {
                 request.customerEmail(),
                 request.roomId(),
                 request.startDate(),
-                request.endDate()
+                request.endDate(),
+                request.extraBedRequested()
         );
     }
 

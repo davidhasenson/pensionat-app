@@ -141,7 +141,8 @@ class RoomServiceTest {
                 room1,
                 LocalDate.now(),
                 LocalDate.now().plusDays(3),
-                BookingStatus.ACTIVE
+                BookingStatus.ACTIVE,
+                false
         );
 
         List<Booking> fakeBookings = List.of(fakeBooking);

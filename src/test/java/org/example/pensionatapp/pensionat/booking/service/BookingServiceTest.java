@@ -5,6 +5,7 @@ import org.example.pensionatapp.pensionat.booking.model.Booking;
 import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
 import org.example.pensionatapp.pensionat.customer.model.Customer;
 import org.example.pensionatapp.pensionat.customer.repository.CustomerRepository;
+import org.example.pensionatapp.pensionat.error.BadRequestException;
 import org.example.pensionatapp.pensionat.room.BedType;
 import org.example.pensionatapp.pensionat.room.model.Room;
 import org.example.pensionatapp.pensionat.room.repository.RoomRepository;
@@ -64,7 +65,8 @@ class BookingServiceTest {
                 room,
                 LocalDate.now().plusDays(1),
                 LocalDate.now().plusDays(3),
-                BookingStatus.ACTIVE
+                BookingStatus.ACTIVE,
+                false
         );
     }
 
@@ -74,6 +76,7 @@ class BookingServiceTest {
         Long roomId = 1L;
         LocalDate startDate = LocalDate.now().plusDays(1);
         LocalDate endDate = LocalDate.now().plusDays(3);
+        boolean extraBedRequested = false;
 
         when(customerRepository.findByEmail(customerEmail)).thenReturn(Optional.of(customer));
         when(roomRepository.findById(roomId)).thenReturn(Optional.of(room));
@@ -87,7 +90,7 @@ class BookingServiceTest {
 
         when(bookingRepository.save(any(Booking.class))).thenReturn(booking);
 
-        Booking result = bookingService.createBooking(customerEmail, roomId, startDate, endDate);
+        Booking result = bookingService.createBooking(customerEmail, roomId, startDate, endDate, extraBedRequested );
 
         assertNotNull(result, "Bokningen borde inte vara null");
         assertEquals(customer, result.getCustomer(), "Kunden matchar inte");
@@ -105,6 +108,7 @@ class BookingServiceTest {
         Long roomId = 1L;
         LocalDate startDate = LocalDate.now().plusDays(1);
         LocalDate endDate = LocalDate.now().plusDays(3);
+        boolean extraBedRequested = false;
 
         when(customerRepository.findByEmail(customerEmail)).thenReturn(Optional.of(customer));
         when(roomRepository.findById(roomId)).thenReturn(Optional.of(room));
@@ -117,8 +121,8 @@ class BookingServiceTest {
         )).thenReturn(true);
 
         assertThrows(
-                IllegalStateException.class,
-                () -> bookingService.createBooking(customerEmail, roomId, startDate, endDate),
+                BadRequestException.class,
+                () -> bookingService.createBooking(customerEmail, roomId, startDate, endDate,extraBedRequested),
                 "Dubbelbokning borde kasta ett fel"
         );
 
