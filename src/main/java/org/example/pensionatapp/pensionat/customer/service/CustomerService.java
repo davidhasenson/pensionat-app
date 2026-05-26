@@ -66,6 +66,13 @@ public class CustomerService {
     @Transactional
     public CustomerResponse createCustomer(CreateCustomerRequest request) {
         logger.info("Attempting to create a new customer with email: {}", request.email());
+        boolean emailExists = customerRepository.findByEmail(request.email()).isPresent();
+
+        if (emailExists) {
+            logger.warn("Customer creation failed: Email {} is already registered", request.email());
+            throw new IllegalStateException("E-postadressen är redan registrerad!");
+        }
+
         Customer customer = new Customer(request.firstName(), request.lastName(), request.email(), request.phone());
         Customer savedCustomer = customerRepository.save(customer);
         logger.info("Customer successfully created with ID: {}", savedCustomer.getId());

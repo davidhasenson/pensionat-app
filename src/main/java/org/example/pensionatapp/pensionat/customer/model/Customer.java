@@ -25,8 +25,7 @@ public class Customer {
 
     @NotBlank(message = "E-post måste anges")
     @Email(message = "E-post måste vara giltig")
-    @Column(nullable = false)
-    //@Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
     private String phone;
