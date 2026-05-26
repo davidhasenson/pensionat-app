@@ -40,7 +40,7 @@ public class BookingController {
     }
 
     @PostMapping
-    public ResponseEntity<BookingResponse> createBooking(@RequestBody @Valid CreateBookingRequest request) {
+    public ResponseEntity<BookingResponse> createBooking(@Valid @RequestBody CreateBookingRequest request) {
         logger.info("Received HTTP POST request to create booking for customer email: {} and room ID: {}",
                 request.customerEmail(), request.roomId());
 
@@ -58,7 +58,7 @@ public class BookingController {
     @PutMapping("/{id}")
     public ResponseEntity<BookingResponse> updateBooking(
             @PathVariable Long id,
-            @RequestBody @Valid CreateBookingRequest request
+            @Valid @RequestBody CreateBookingRequest request
     ) {
         logger.info("Received HTTP PUT request to update booking with ID: {}", id);
 
