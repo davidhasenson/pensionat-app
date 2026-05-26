@@ -35,7 +35,7 @@ public class Booking {
     private BookingStatus status;
 
     @Column(columnDefinition = "boolean default false")
-    private boolean extraBedIncluded = false;
+    private boolean extraBedRequested = false;
 
     protected Booking() {
     }
@@ -46,7 +46,7 @@ public class Booking {
         this.startDate = startDate;
         this.endDate = endDate;
         this.status = status;
-        this.extraBedIncluded = extraBedIncluded;
+        this.extraBedRequested = extraBedIncluded;
     }
 
     public Long getId() {
@@ -93,11 +93,11 @@ public class Booking {
         this.status = status;
     }
 
-    public boolean isExtraBedIncluded() {
-        return extraBedIncluded;
+    public boolean isExtraBedRequested() {
+        return extraBedRequested;
     }
 
-    public void setExtraBedIncluded(boolean extraBedIncluded) {
-        this.extraBedIncluded = extraBedIncluded;
+    public void setExtraBedRequested(boolean extraBedRequested) {
+        this.extraBedRequested = extraBedRequested;
     }
 }

@@ -3,6 +3,7 @@ package org.example.pensionatapp.pensionat.booking.controller;
 import jakarta.validation.Valid;
 import org.example.pensionatapp.pensionat.booking.model.BookingResponse;
 import org.example.pensionatapp.pensionat.booking.model.CreateBookingRequest;
+import org.example.pensionatapp.pensionat.booking.model.UpdateBookingRequest;
 import org.example.pensionatapp.pensionat.booking.service.BookingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,19 +57,9 @@ public class BookingController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookingResponse> updateBooking(
-            @PathVariable Long id,
-            @RequestBody @Valid CreateBookingRequest request
-    ) {
+    public ResponseEntity<BookingResponse> updateBooking(@PathVariable Long id, @RequestBody @Valid UpdateBookingRequest request) {
         logger.info("Received HTTP PUT request to update booking with ID: {}", id);
-
-        BookingResponse booking = bookingService.updateBooking(
-                id,
-                request.roomId(),
-                request.startDate(),
-                request.endDate()
-        );
-
+        BookingResponse booking = bookingService.updateBooking(id, request);
         return ResponseEntity.ok(booking);
     }
 
