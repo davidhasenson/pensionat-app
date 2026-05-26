@@ -58,7 +58,7 @@ public class BookingController {
     @PutMapping("/{id}")
     public ResponseEntity<BookingResponse> updateBooking(
             @PathVariable Long id,
-            @RequestBody @Valid CreateBookingRequest request
+            @Valid @RequestBody CreateBookingRequest request
     ) {
         logger.info("Received HTTP PUT request to update booking with ID: {}", id);
 
