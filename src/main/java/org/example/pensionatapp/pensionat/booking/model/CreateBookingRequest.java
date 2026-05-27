@@ -1,6 +1,5 @@
 package org.example.pensionatapp.pensionat.booking.model;
 
-import jakarta.validation.constraints.AssertFalse;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -16,11 +15,9 @@ public record CreateBookingRequest(
         Long roomId,
 
         @NotNull(message = "Startdatum måste anges")
-        //@JsonFormat(pattern = "yyyy-MM-dd")
         LocalDate startDate,
 
         @NotNull(message = "Slutdatum måste anges")
-        //@JsonFormat(pattern = "yyyy-MM-dd")
         LocalDate endDate,
 
         boolean extraBedRequested

@@ -70,9 +70,6 @@ class CustomerServiceTest {
 
     @Test
     void createCustomer() {
-
-        // Arrange
-
         CreateCustomerRequest request = new CreateCustomerRequest(
                 "Frodo",
                 "Bagger",
@@ -82,11 +79,7 @@ class CustomerServiceTest {
 
         when(customerRepository.save(any(Customer.class))).thenReturn(customer1);
 
-        // Act
-
         CustomerResponse result = customerService.createCustomer(request);
-
-        // Assert
 
         assertNotNull(result, "Den skapade kunden borde inte vara null");
         assertEquals(1L, result.id(), "Kunden borde ha fått ID 1L från vår mock");
@@ -101,9 +94,6 @@ class CustomerServiceTest {
 
     @Test
     void updateCustomer() {
-
-        // 1. Arrange
-
         Long customerId = 1L;
         UpdateCustomerRequest request = new UpdateCustomerRequest(
                 "Bilbo",
@@ -111,43 +101,32 @@ class CustomerServiceTest {
                 "070-999"
         );
 
-        // Säg till databasen att returnera din befintliga customer1 när vi söker på ID 1
         when(customerRepository.findById(customerId))
                 .thenReturn(java.util.Optional.of(customer1));
 
-        // Säg till databasen att returnera kunden när den sparas
         when(customerRepository.save(any(Customer.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
-        // Act
-
         CustomerResponse result = customerService.updateCustomerById(customerId, request);
 
-        // Assert
-        //              1. Förväntat    2. Faktiskt resultat    3. Felmeddelande
         assertNotNull(result, "Det uppdaterade resultatet borde inte vara null");
         assertEquals("Bilbo", result.firstName(), "Förnamnet uppdaterades inte");
         assertEquals("Bagger", result.lastName(), "Efternamnet uppdaterades inte");
         assertEquals("070-999", result.phone(), "Telefonnumret uppdaterades inte");
-
-        // E-posten skickades inte med i din UpdateRequest, så den ska vara kvar som förut
         assertEquals("frodo@pensionat.se", result.email(), "E-posten ska inte ha ändrats");
 
         verify(customerRepository, times(1)).findById(customerId);
         verify(customerRepository, times(1)).save(any(Customer.class));
-
     }
 
     @Test
     void updateCustomer_ShouldThrowNotFoundException_WhenCustomerDoesNotExist() {
-
-        Long invalidId = 99L; // Ett ID som inte finns
+        Long invalidId = 99L;
         UpdateCustomerRequest request = new UpdateCustomerRequest("Bilbo", "Bagger", "070-999");
 
         when(customerRepository.findById(invalidId))
                 .thenReturn(empty());
 
-        // Vi kontrollerar att rätt fel kallas, samt kollar felmeddelandet
         NotFoundException exception = assertThrows(
                 NotFoundException.class,
                 () -> customerService.updateCustomerById(invalidId, request)
@@ -155,11 +134,11 @@ class CustomerServiceTest {
 
         assertEquals("Kunden hittades inte", exception.getMessage());
 
-        // VIKTIG VERIFIERING: Eftersom kunden inte fanns, ska .save() ALDRIG ha anropats!
         verify(customerRepository, never()).save(any(Customer.class));
     }
 
     @Test
-    void deleteCustomer() {
+    void deleteCustomer()
+    {
     }
 }

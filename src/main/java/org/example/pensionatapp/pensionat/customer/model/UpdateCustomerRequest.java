@@ -1,6 +1,5 @@
 package org.example.pensionatapp.pensionat.customer.model;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 public record UpdateCustomerRequest(
@@ -9,7 +8,6 @@ public record UpdateCustomerRequest(
 
         @NotBlank(message = "Efternamn måste anges")
         String lastName,
-
         String phone
 ) {
 }

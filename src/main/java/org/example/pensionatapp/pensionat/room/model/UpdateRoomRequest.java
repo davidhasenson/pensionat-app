@@ -18,5 +18,5 @@ public record UpdateRoomRequest(
 
         @Min(value = 1, message = "Pris per natt måste vara större än 0")
         int pricePerNight
-
-) {}
+) {
+}

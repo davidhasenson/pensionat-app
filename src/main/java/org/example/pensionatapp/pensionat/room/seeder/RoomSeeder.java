@@ -32,6 +32,4 @@ public class RoomSeeder implements CommandLineRunner {
             roomRepository.save(new Room("110", 1, BedType.SINGLE_BED, 900));
         }
     }
-
-
 }

@@ -2,7 +2,6 @@ package org.example.pensionatapp.pensionat.booking.repository;
 
 import org.example.pensionatapp.pensionat.booking.BookingStatus;
 import org.example.pensionatapp.pensionat.booking.model.Booking;
-import org.example.pensionatapp.pensionat.room.model.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
