@@ -226,6 +226,7 @@ public class BookingService {
                 booking.getCustomer().getLastName(),
                 booking.getRoom().getId(),
                 booking.getRoom().getRoomNumber(),
+                booking.getRoom().getBedType().getDisplayName(),
                 booking.getStartDate(),
                 booking.getEndDate(),
                 booking.getStatus().name(),

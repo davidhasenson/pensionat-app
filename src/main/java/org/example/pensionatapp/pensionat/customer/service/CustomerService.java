@@ -1,6 +1,7 @@
 package org.example.pensionatapp.pensionat.customer.service;
 
 import jakarta.transaction.Transactional;
+import org.example.pensionatapp.pensionat.booking.BookingStatus;
 import org.example.pensionatapp.pensionat.booking.model.Booking;
 import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
 import org.example.pensionatapp.pensionat.customer.model.CreateCustomerRequest;
@@ -126,8 +127,8 @@ public class CustomerService {
                     return new NotFoundException("Kunden hittades inte");
                 });
 
-        boolean hasBooking = bookingRepository.existsByCustomerIdAndEndDateAfter(id, LocalDate.now());
-        if (hasBooking) {
+        boolean hasActiveBooking = bookingRepository.existsByCustomerIdAndEndDateAfterAndStatus(id, LocalDate.now(),BookingStatus.ACTIVE);
+        if (hasActiveBooking) {
             logger.warn("Delete failed: Customer with ID {} has active bookings", id);
             throw new IllegalStateException("Kunden har aktiva bokningar som måste avbokas innan den kan tas bort");
         }
@@ -155,8 +156,8 @@ public class CustomerService {
         Long customerId = customer.getId();
 
 
-        boolean hasBooking = bookingRepository.existsByCustomerIdAndEndDateAfter(customerId, LocalDate.now());
-        if (hasBooking) {
+        boolean hasActiveBooking = bookingRepository.existsByCustomerIdAndEndDateAfterAndStatus(customerId, LocalDate.now(), BookingStatus.ACTIVE);
+        if (hasActiveBooking) {
             logger.warn("Delete failed: Customer with email {} (ID {}) has active bookings", email, customerId);
             throw new IllegalStateException("Kunden har aktiva bokningar som måste avbokas innan den kan tas bort");
         }

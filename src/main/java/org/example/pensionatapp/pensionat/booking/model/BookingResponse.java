@@ -9,6 +9,7 @@ public record BookingResponse(
         String customerLastName,
         Long roomId,
         String roomNumber,
+        String bedType,
         LocalDate startDate,
         LocalDate endDate,
         String status,
