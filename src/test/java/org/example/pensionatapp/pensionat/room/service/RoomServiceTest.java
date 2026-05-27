@@ -73,16 +73,13 @@ class RoomServiceTest {
     }
 
     @AfterEach
-    void tearDown() {
-    }
+    void tearDown() {}
 
     @Test
     void getAllRooms_shouldReturnListOfRooms(){}
 
     @Test
     void createRoom_shouldSaveAndReturnRoom(){
-
-        //Arrange
         CreateRoomRequest request = new CreateRoomRequest(
                 "111",
                 2,
@@ -92,7 +89,6 @@ class RoomServiceTest {
 
         when(roomRepository.save(any(Room.class))).thenReturn(room1);
 
-        //Act
         RoomResponse result = roomService.createRoom(
                 request.roomNumber(),
                 request.beds(),
@@ -100,7 +96,6 @@ class RoomServiceTest {
                 request.pricePerNight()
         );
 
-        //Assert
         assertNotNull(result, "Can't be null");
         assertEquals(room1.getRoomNumber(), result.roomNumber());
         assertEquals(room1.getBeds(), result.beds());
@@ -120,22 +115,18 @@ class RoomServiceTest {
 
     @Test
     void deleteRoom_shouldDeleteRoom(){
-        //Arrange
         when(bookingRepository.findByRoomIdAndStatus(
                 1L, BookingStatus.ACTIVE)).thenReturn(Collections.emptyList());
 
         when(roomRepository.findById(1L)).thenReturn(Optional.of(room1));
 
-        //Act
         roomService.deleteRoom(1L);
 
-        //Assert
         verify(roomRepository, times(1)).delete(room1);
     }
 
     @Test
     void deleteRoom_shouldThrowBadRequestExceptionWhenActiveBookingsExist(){
-        //Arrange
         Booking fakeBooking = new Booking(
                 new Customer("Adam", "Klarin",
                         "adam@test.se", "07045356534"),
@@ -153,8 +144,6 @@ class RoomServiceTest {
         when(bookingRepository.findByRoomIdAndStatus(
                 1L, BookingStatus.ACTIVE))
         .thenReturn(fakeBookings);
-
-        //ACT + Assert
 
         assertThrows(BadRequestException.class, () -> roomService.deleteRoom(1L));
     }

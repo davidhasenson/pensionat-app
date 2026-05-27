@@ -9,5 +9,4 @@ class PensionatAppApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }

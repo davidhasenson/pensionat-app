@@ -13,6 +13,5 @@ public record CreateCustomerRequest(
         @NotBlank(message = "E-post måste anges")
         @Email(message = "E-post måste vara giltig")
         String email,
-
         String phone) {
 }

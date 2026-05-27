@@ -3,7 +3,6 @@ package org.example.pensionatapp.pensionat.room.service;
 import org.example.pensionatapp.pensionat.booking.BookingStatus;
 import org.example.pensionatapp.pensionat.booking.model.Booking;
 import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
-import org.example.pensionatapp.pensionat.booking.service.BookingService;
 import org.example.pensionatapp.pensionat.error.BadRequestException;
 import org.example.pensionatapp.pensionat.error.NotFoundException;
 import org.example.pensionatapp.pensionat.room.BedType;
@@ -152,8 +151,6 @@ public class RoomService {
                     logger.warn("Room with id{} not found", id);
                     return new NotFoundException("Rummet med id " + id + " hittades inte");
 
-        });
+        } );
     }
-
 }
-

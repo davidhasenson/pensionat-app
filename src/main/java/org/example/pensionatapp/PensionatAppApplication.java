@@ -9,19 +9,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class PensionatAppApplication {
 
     public static void main(String[] args) {
-        // Laddar .env-filen
         Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
 
-        // Gör variablerna tillgängliga som system-properties för Spring
         dotenv.entries().forEach(entry -> System.setProperty(entry.getKey(), entry.getValue()));
 
         SpringApplication.run(PensionatAppApplication.class, args);
     }
 }
-
-/*TODO
- * create BookingService
- * create RoomService
- * create Customer Controller
- * create Booking Controller
- * */

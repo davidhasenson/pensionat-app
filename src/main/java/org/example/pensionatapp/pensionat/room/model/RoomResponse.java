@@ -6,4 +6,5 @@ public record RoomResponse(
         int beds,
         int pricePerNight,
         String bedType
-) {}
+) {
+}

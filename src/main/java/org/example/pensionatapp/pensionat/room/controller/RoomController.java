@@ -75,5 +75,4 @@ public class RoomController {
         logger.info("Found {} available rooms for the period {} to {}", availableRooms.size(), startDate, endDate);
         return ResponseEntity.ok().body(availableRooms);
     }
-
 }

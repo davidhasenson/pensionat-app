@@ -80,4 +80,3 @@ public class Room {
         this.pricePerNight = pricePerNight;
     }
 }
-
