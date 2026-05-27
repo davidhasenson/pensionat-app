@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -171,6 +172,16 @@ public class BookingService {
                 });
 
         return convertToBookingResponse(booking);
+    }
+
+    public List<BookingResponse> getAllBookingsByEmail(String email) {
+        logger.info("Fetching all bookings by email: {}", email);
+        List<Booking> bookings = bookingRepository.findByCustomerEmail(email);
+        List<BookingResponse> responses = new ArrayList<>();
+        for (Booking booking : bookings) {
+            responses.add(convertToBookingResponse(booking));
+        }
+        return responses;
     }
 
     private void validateDates(LocalDate startDate, LocalDate endDate) {

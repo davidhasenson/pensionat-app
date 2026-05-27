@@ -69,4 +69,11 @@ public class BookingController {
         BookingResponse booking = bookingService.cancelBooking(id);
         return ResponseEntity.ok(booking);
     }
+
+    @GetMapping("/by-email")
+    public ResponseEntity<List<BookingResponse>> getAllBookingsByEmail(@RequestParam String email) {
+        logger.info("Received HTTP GET request to get all bookings by email: {}", email);
+        List<BookingResponse> bookings = bookingService.getAllBookingsByEmail(email);
+        return ResponseEntity.ok(bookings);
+    }
 }
