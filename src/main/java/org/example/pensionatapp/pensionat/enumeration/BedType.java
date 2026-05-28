@@ -1,4 +1,4 @@
-package org.example.pensionatapp.pensionat.room;
+package org.example.pensionatapp.pensionat.enumeration;
 
 public enum BedType {
     SINGLE_BED("Enkelrum"),

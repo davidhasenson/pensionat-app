@@ -1,9 +1,9 @@
-package org.example.pensionatapp.pensionat.room.model;
+package org.example.pensionatapp.pensionat.room.model.DTO;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import org.example.pensionatapp.pensionat.room.BedType;
+import org.example.pensionatapp.pensionat.enumeration.BedType;
 
 public record CreateRoomRequest(
 

@@ -1,4 +1,4 @@
-package org.example.pensionatapp.pensionat.booking;
+package org.example.pensionatapp.pensionat.enumeration;
 
 public enum BookingStatus {
     ACTIVE,

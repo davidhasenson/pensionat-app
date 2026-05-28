@@ -1,4 +1,4 @@
-package org.example.pensionatapp.pensionat.booking.model;
+package org.example.pensionatapp.pensionat.booking.model.DTO;
 
 import jakarta.validation.constraints.NotNull;
 

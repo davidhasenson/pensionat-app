@@ -1,13 +1,13 @@
 package org.example.pensionatapp.pensionat.customer.service;
 
 import jakarta.transaction.Transactional;
-import org.example.pensionatapp.pensionat.booking.BookingStatus;
+import org.example.pensionatapp.pensionat.enumeration.BookingStatus;
 import org.example.pensionatapp.pensionat.booking.model.Booking;
 import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
-import org.example.pensionatapp.pensionat.customer.model.CreateCustomerRequest;
+import org.example.pensionatapp.pensionat.customer.model.DTO.CreateCustomerRequest;
 import org.example.pensionatapp.pensionat.customer.model.Customer;
-import org.example.pensionatapp.pensionat.customer.model.CustomerResponse;
-import org.example.pensionatapp.pensionat.customer.model.UpdateCustomerRequest;
+import org.example.pensionatapp.pensionat.customer.model.DTO.CustomerResponse;
+import org.example.pensionatapp.pensionat.customer.model.DTO.UpdateCustomerRequest;
 import org.example.pensionatapp.pensionat.customer.repository.CustomerRepository;
 import org.example.pensionatapp.pensionat.error.NotFoundException;
 import org.slf4j.Logger;

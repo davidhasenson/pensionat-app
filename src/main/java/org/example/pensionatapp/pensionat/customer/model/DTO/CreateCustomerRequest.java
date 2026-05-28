@@ -1,4 +1,4 @@
-package org.example.pensionatapp.pensionat.customer.model;
+package org.example.pensionatapp.pensionat.customer.model.DTO;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

@@ -1,4 +1,4 @@
-package org.example.pensionatapp.pensionat.room.model;
+package org.example.pensionatapp.pensionat.room.model.DTO;
 
 public record RoomResponse(
         Long id,

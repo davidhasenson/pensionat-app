@@ -1,13 +1,13 @@
 package org.example.pensionatapp.pensionat.room.service;
 
-import org.example.pensionatapp.pensionat.booking.BookingStatus;
+import org.example.pensionatapp.pensionat.enumeration.BookingStatus;
 import org.example.pensionatapp.pensionat.booking.model.Booking;
 import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
 import org.example.pensionatapp.pensionat.error.BadRequestException;
 import org.example.pensionatapp.pensionat.error.NotFoundException;
-import org.example.pensionatapp.pensionat.room.BedType;
+import org.example.pensionatapp.pensionat.enumeration.BedType;
 import org.example.pensionatapp.pensionat.room.model.Room;
-import org.example.pensionatapp.pensionat.room.model.RoomResponse;
+import org.example.pensionatapp.pensionat.room.model.DTO.RoomResponse;
 import org.example.pensionatapp.pensionat.room.repository.RoomRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
