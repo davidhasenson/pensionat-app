@@ -13,7 +13,7 @@ public record CreateRoomRequest(
     @Min(value = 1, message = "Ett rum måste ha minst en säng")
     int beds,
 
-    @NotNull(message = "Måste finnas minst en typ av säng i rummat")
+    @NotNull(message = "Måste finnas minst en typ av säng i rummet")
     BedType bedType,
 
     @Min(value = 1, message = "Pris per natt måste vara större än 0")

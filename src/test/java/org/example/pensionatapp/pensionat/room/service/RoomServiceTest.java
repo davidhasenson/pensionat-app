@@ -72,12 +72,6 @@ class RoomServiceTest {
 
     }
 
-    @AfterEach
-    void tearDown() {}
-
-    @Test
-    void getAllRooms_shouldReturnListOfRooms(){}
-
     @Test
     void createRoom_shouldSaveAndReturnRoom(){
         CreateRoomRequest request = new CreateRoomRequest(
@@ -103,15 +97,6 @@ class RoomServiceTest {
 
         verify(roomRepository, times(1)).save(any());
     }
-
-    @Test
-    void getRoomById_shouldReturnRoom(){}
-
-    @Test
-    void getRoomById_shouldThrowNotFoundException(){}
-
-    @Test
-    void updateRoom_shouldUpdateAndReturnRoom(){}
 
     @Test
     void deleteRoom_shouldDeleteRoom(){
