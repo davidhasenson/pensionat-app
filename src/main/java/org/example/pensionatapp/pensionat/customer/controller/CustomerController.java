@@ -1,10 +1,9 @@
 package org.example.pensionatapp.pensionat.customer.controller;
 
 import jakarta.validation.Valid;
-import org.example.pensionatapp.pensionat.customer.model.CreateCustomerRequest;
-import org.example.pensionatapp.pensionat.customer.model.Customer;
-import org.example.pensionatapp.pensionat.customer.model.CustomerResponse;
-import org.example.pensionatapp.pensionat.customer.model.UpdateCustomerRequest;
+import org.example.pensionatapp.pensionat.customer.model.dto.CreateCustomerRequest;
+import org.example.pensionatapp.pensionat.customer.model.dto.CustomerResponse;
+import org.example.pensionatapp.pensionat.customer.model.dto.UpdateCustomerRequest;
 import org.example.pensionatapp.pensionat.customer.service.CustomerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

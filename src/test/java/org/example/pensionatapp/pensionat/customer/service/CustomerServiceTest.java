@@ -1,10 +1,10 @@
 package org.example.pensionatapp.pensionat.customer.service;
 
 import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
-import org.example.pensionatapp.pensionat.customer.model.CreateCustomerRequest;
+import org.example.pensionatapp.pensionat.customer.model.dto.CreateCustomerRequest;
 import org.example.pensionatapp.pensionat.customer.model.Customer;
-import org.example.pensionatapp.pensionat.customer.model.CustomerResponse;
-import org.example.pensionatapp.pensionat.customer.model.UpdateCustomerRequest;
+import org.example.pensionatapp.pensionat.customer.model.dto.CustomerResponse;
+import org.example.pensionatapp.pensionat.customer.model.dto.UpdateCustomerRequest;
 import org.example.pensionatapp.pensionat.customer.repository.CustomerRepository;
 import org.example.pensionatapp.pensionat.error.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;

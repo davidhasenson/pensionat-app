@@ -1,4 +1,4 @@
-package org.example.pensionatapp.pensionat.customer.model;
+package org.example.pensionatapp.pensionat.customer.model.dto;
 
 public record CustomerResponse(
         Long id,
