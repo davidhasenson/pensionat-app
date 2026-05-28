@@ -1,9 +1,9 @@
 package org.example.pensionatapp.pensionat.booking.controller;
 
 import jakarta.validation.Valid;
-import org.example.pensionatapp.pensionat.booking.model.BookingResponse;
-import org.example.pensionatapp.pensionat.booking.model.CreateBookingRequest;
-import org.example.pensionatapp.pensionat.booking.model.UpdateBookingRequest;
+import org.example.pensionatapp.pensionat.booking.model.DTO.BookingResponse;
+import org.example.pensionatapp.pensionat.booking.model.DTO.CreateBookingRequest;
+import org.example.pensionatapp.pensionat.booking.model.DTO.UpdateBookingRequest;
 import org.example.pensionatapp.pensionat.booking.service.BookingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
