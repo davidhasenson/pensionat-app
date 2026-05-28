@@ -3,7 +3,7 @@ package org.example.pensionatapp.pensionat.booking.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
-import org.example.pensionatapp.pensionat.booking.BookingStatus;
+import org.example.pensionatapp.pensionat.booking.enumeration.BookingStatus;
 import org.example.pensionatapp.pensionat.customer.model.Customer;
 import org.example.pensionatapp.pensionat.room.model.Room;
 

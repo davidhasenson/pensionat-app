@@ -1,6 +1,6 @@
 package org.example.pensionatapp.pensionat.booking.repository;
 
-import org.example.pensionatapp.pensionat.booking.BookingStatus;
+import org.example.pensionatapp.pensionat.booking.enumeration.BookingStatus;
 import org.example.pensionatapp.pensionat.booking.model.Booking;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,6 +1,6 @@
 package org.example.pensionatapp.pensionat.room.seeder;
 
-import org.example.pensionatapp.pensionat.room.BedType;
+import org.example.pensionatapp.pensionat.room.enumeration.BedType;
 import org.example.pensionatapp.pensionat.room.model.Room;
 import org.example.pensionatapp.pensionat.room.repository.RoomRepository;
 import org.springframework.boot.CommandLineRunner;
