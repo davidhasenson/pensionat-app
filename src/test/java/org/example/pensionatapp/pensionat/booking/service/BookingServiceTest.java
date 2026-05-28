@@ -2,7 +2,7 @@ package org.example.pensionatapp.pensionat.booking.service;
 
 import org.example.pensionatapp.pensionat.booking.enumeration.BookingStatus;
 import org.example.pensionatapp.pensionat.booking.model.Booking;
-import org.example.pensionatapp.pensionat.booking.model.DTO.BookingResponse;
+import org.example.pensionatapp.pensionat.booking.model.dto.BookingResponse;
 import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
 import org.example.pensionatapp.pensionat.customer.model.Customer;
 import org.example.pensionatapp.pensionat.customer.repository.CustomerRepository;

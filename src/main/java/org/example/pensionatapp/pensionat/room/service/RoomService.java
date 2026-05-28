@@ -7,7 +7,7 @@ import org.example.pensionatapp.pensionat.error.BadRequestException;
 import org.example.pensionatapp.pensionat.error.NotFoundException;
 import org.example.pensionatapp.pensionat.room.enumeration.BedType;
 import org.example.pensionatapp.pensionat.room.model.Room;
-import org.example.pensionatapp.pensionat.room.model.RoomResponse;
+import org.example.pensionatapp.pensionat.room.model.dto.RoomResponse;
 import org.example.pensionatapp.pensionat.room.repository.RoomRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
