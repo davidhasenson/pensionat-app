@@ -1,4 +1,4 @@
-package org.example.pensionatapp.pensionat.booking.model.DTO;
+package org.example.pensionatapp.pensionat.booking.model.dto;
 
 import java.time.LocalDate;
 

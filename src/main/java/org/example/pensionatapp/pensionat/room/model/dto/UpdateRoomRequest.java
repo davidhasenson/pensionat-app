@@ -1,4 +1,4 @@
-package org.example.pensionatapp.pensionat.room.model;
+package org.example.pensionatapp.pensionat.room.model.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

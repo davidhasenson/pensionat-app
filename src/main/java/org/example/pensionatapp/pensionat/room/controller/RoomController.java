@@ -1,10 +1,9 @@
 package org.example.pensionatapp.pensionat.room.controller;
 
 import jakarta.validation.Valid;
-import org.example.pensionatapp.pensionat.room.model.CreateRoomRequest;
-import org.example.pensionatapp.pensionat.room.model.Room;
-import org.example.pensionatapp.pensionat.room.model.RoomResponse;
-import org.example.pensionatapp.pensionat.room.model.UpdateRoomRequest;
+import org.example.pensionatapp.pensionat.room.model.dto.CreateRoomRequest;
+import org.example.pensionatapp.pensionat.room.model.dto.RoomResponse;
+import org.example.pensionatapp.pensionat.room.model.dto.UpdateRoomRequest;
 import org.example.pensionatapp.pensionat.room.service.RoomService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
