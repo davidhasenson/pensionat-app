@@ -1,4 +1,4 @@
-package org.example.pensionatapp.pensionat.customer.model;
+package org.example.pensionatapp.pensionat.customer.model.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
