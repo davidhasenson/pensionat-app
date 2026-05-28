@@ -1,13 +1,13 @@
 package org.example.pensionatapp.pensionat.booking.service;
 
-import org.example.pensionatapp.pensionat.booking.BookingStatus;
+import org.example.pensionatapp.pensionat.booking.enumeration.BookingStatus;
 import org.example.pensionatapp.pensionat.booking.model.Booking;
 import org.example.pensionatapp.pensionat.booking.model.BookingResponse;
 import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
 import org.example.pensionatapp.pensionat.customer.model.Customer;
 import org.example.pensionatapp.pensionat.customer.repository.CustomerRepository;
 import org.example.pensionatapp.pensionat.error.BadRequestException;
-import org.example.pensionatapp.pensionat.room.BedType;
+import org.example.pensionatapp.pensionat.room.enumeration.BedType;
 import org.example.pensionatapp.pensionat.room.model.Room;
 import org.example.pensionatapp.pensionat.room.repository.RoomRepository;
 import org.junit.jupiter.api.BeforeEach;

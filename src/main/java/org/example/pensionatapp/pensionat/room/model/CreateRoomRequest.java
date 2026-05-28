@@ -3,7 +3,7 @@ package org.example.pensionatapp.pensionat.room.model;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import org.example.pensionatapp.pensionat.room.BedType;
+import org.example.pensionatapp.pensionat.room.enumeration.BedType;
 
 public record CreateRoomRequest(
 

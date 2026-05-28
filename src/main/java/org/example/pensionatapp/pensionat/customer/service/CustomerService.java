@@ -1,7 +1,7 @@
 package org.example.pensionatapp.pensionat.customer.service;
 
 import jakarta.transaction.Transactional;
-import org.example.pensionatapp.pensionat.booking.BookingStatus;
+import org.example.pensionatapp.pensionat.booking.enumeration.BookingStatus;
 import org.example.pensionatapp.pensionat.booking.model.Booking;
 import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
 import org.example.pensionatapp.pensionat.customer.model.CreateCustomerRequest;
