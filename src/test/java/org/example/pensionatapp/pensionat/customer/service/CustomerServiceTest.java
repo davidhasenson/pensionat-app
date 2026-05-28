@@ -61,14 +61,6 @@ class CustomerServiceTest {
     }
 
     @Test
-    void getAllCustomers() {
-    }
-
-    @Test
-    void getCustomerById() {
-    }
-
-    @Test
     void createCustomer() {
         CreateCustomerRequest request = new CreateCustomerRequest(
                 "Frodo",
@@ -135,10 +127,5 @@ class CustomerServiceTest {
         assertEquals("Kunden hittades inte", exception.getMessage());
 
         verify(customerRepository, never()).save(any(Customer.class));
-    }
-
-    @Test
-    void deleteCustomer()
-    {
     }
 }
