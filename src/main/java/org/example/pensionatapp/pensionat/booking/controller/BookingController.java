@@ -79,16 +79,16 @@ public class BookingController {
 
     @GetMapping("/active-bookings/{id}")
     public ResponseEntity<Boolean> hasActiveBooking(@PathVariable("id") Long customerId) {
-        logger.info("Received HTTP GET request to get a customers actin bookings by id: {}", customerId);
+        logger.info("Received HTTP GET request to get a customers active bookings by id: {}", customerId);
         boolean activeBookings = bookingService.hasActiveBooking(customerId);
         return ResponseEntity.ok(activeBookings);
     }
 
-    @GetMapping("/unlink-bookings/{id}")
-    public ResponseEntity<Boolean> unlinkBooking(@PathVariable("id") Long customerId) {
-        logger.info("Received HTTP PATCH request to unlink booking by id: {}", customerId);
-        boolean unlinkBookings = bookingService.unlinkingBookings(customerId);
-        return ResponseEntity.ok(unlinkBookings);
+    @PutMapping("/unlink-bookings/{id}")
+    public ResponseEntity<Void> unlinkBooking(@PathVariable("id") Long customerId) {
+        logger.info("Received HTTP PUT request to unlink booking by id: {}", customerId);
+        bookingService.unlinkingBookings(customerId);
+        return ResponseEntity.noContent().build();
     }
 
 }

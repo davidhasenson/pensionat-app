@@ -218,17 +218,16 @@ public class BookingService {
         }
     }
 
-    public boolean hasActiveBooking(Long customerId){
-        return bookingRepository.existsByCustomerIdAndEndDateAfterAndStatus(customerId, LocalDate.now(),BookingStatus.ACTIVE);
+    public boolean hasActiveBooking(Long customerId) {
+        return bookingRepository.existsByCustomerIdAndEndDateAfterAndStatus(customerId, LocalDate.now(), BookingStatus.ACTIVE);
     }
 
     @Transactional
-    public boolean unlinkingBookings(Long customerId){
-        for (Booking booking : bookingRepository.findByCustomerId(customerId)) {
+    public void unlinkingBookings(Long customerId) {
+        List<Booking> bookings = bookingRepository.findByCustomerId(customerId);
+        for (Booking booking : bookings) {
             booking.setCustomer(null);
-            bookingRepository.save(booking);
-      }
-        return true;
+        }
     }
 
     private BookingResponse convertToBookingResponse(Booking booking) {
