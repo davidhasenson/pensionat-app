@@ -218,6 +218,10 @@ public class BookingService {
         }
     }
 
+    private boolean hasActiveBooking(Long customerId){
+        return bookingRepository.existsByCustomerIdAndEndDateAfterAndStatus(customerId, LocalDate.now(),BookingStatus.ACTIVE);
+    }
+
     private BookingResponse convertToBookingResponse(Booking booking) {
         return new BookingResponse(
                 booking.getId(),
