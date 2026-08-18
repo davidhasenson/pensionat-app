@@ -87,8 +87,8 @@ public class BookingController {
     @PatchMapping("/unlink-booking/{id}")
     public ResponseEntity<Boolean> unlinkBooking(@PathVariable Long customerId) {
         logger.info("Received HTTP PATCH request to unlink booking by id: {}", customerId);
-        ResponseEntity<Boolean> unlinkBookings = bookingService.unlinkBooking(customerId);
-        return unlinkBookings;
+        boolean unlinkBookings = bookingService.unlinkingBookings(customerId);
+        return ResponseEntity.ok(unlinkBookings);
     }
 
 }

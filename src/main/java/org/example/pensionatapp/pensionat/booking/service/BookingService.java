@@ -222,6 +222,15 @@ public class BookingService {
         return bookingRepository.existsByCustomerIdAndEndDateAfterAndStatus(customerId, LocalDate.now(),BookingStatus.ACTIVE);
     }
 
+    @Transactional
+    public boolean unlinkingBookings(Long customerId){
+        for (Booking booking : bookingRepository.findByCustomerId(customerId)) {
+            booking.setCustomer(null);
+            bookingRepository.save(booking);
+      }
+        return true;
+    }
+
     private BookingResponse convertToBookingResponse(Booking booking) {
         return new BookingResponse(
                 booking.getId(),
