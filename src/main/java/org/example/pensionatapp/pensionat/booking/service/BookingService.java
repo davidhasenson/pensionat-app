@@ -218,7 +218,7 @@ public class BookingService {
         }
     }
 
-    private boolean hasActiveBooking(Long customerId){
+    public boolean hasActiveBooking(Long customerId){
         return bookingRepository.existsByCustomerIdAndEndDateAfterAndStatus(customerId, LocalDate.now(),BookingStatus.ACTIVE);
     }
 
