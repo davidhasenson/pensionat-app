@@ -76,4 +76,9 @@ public class BookingController {
         List<BookingResponse> bookings = bookingService.getAllBookingsByEmail(email);
         return ResponseEntity.ok(bookings);
     }
+
+    @GetMapping("/active/{customerId}")
+    public boolean hasActiveBookings(@PathVariable Long customerId) {
+        return bookingService.hasActiveBookings(customerId);
+    }
 }

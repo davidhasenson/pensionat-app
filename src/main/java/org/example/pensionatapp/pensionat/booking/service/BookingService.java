@@ -184,6 +184,13 @@ public class BookingService {
         return responses;
     }
 
+    public boolean hasActiveBookings(Long customerId) {
+        logger.info("Checking if active bookings for customer: {}", customerId);
+
+        return bookingRepository.existsByCustomerIdAndEndDateAfterAndStatus(
+                customerId, LocalDate.now(), BookingStatus.ACTIVE);
+    }
+
     private void validateDates(LocalDate startDate, LocalDate endDate) {
         if (startDate == null || endDate == null) {
             logger.warn("Validation failed: start date or end date is missing");
