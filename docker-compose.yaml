@@ -1,0 +1,14 @@
+services:
+  
+  pensionat-db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: pensionat-db
+
+  pensionat-app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - pensionat-db
