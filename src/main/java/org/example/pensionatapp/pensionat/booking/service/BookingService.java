@@ -218,6 +218,18 @@ public class BookingService {
         }
     }
 
+    public boolean hasActiveBooking(Long customerId) {
+        return bookingRepository.existsByCustomerIdAndEndDateAfterAndStatus(customerId, LocalDate.now(), BookingStatus.ACTIVE);
+    }
+
+    @Transactional
+    public void unlinkingBookings(Long customerId) {
+        List<Booking> bookings = bookingRepository.findByCustomerId(customerId);
+        for (Booking booking : bookings) {
+            booking.setCustomer(null);
+        }
+    }
+
     private BookingResponse convertToBookingResponse(Booking booking) {
         return new BookingResponse(
                 booking.getId(),

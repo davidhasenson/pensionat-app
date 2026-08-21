@@ -76,4 +76,19 @@ public class BookingController {
         List<BookingResponse> bookings = bookingService.getAllBookingsByEmail(email);
         return ResponseEntity.ok(bookings);
     }
+
+    @GetMapping("/active-bookings/{id}")
+    public ResponseEntity<Boolean> hasActiveBooking(@PathVariable("id") Long customerId) {
+        logger.info("Received HTTP GET request to get a customers active bookings by id: {}", customerId);
+        boolean activeBookings = bookingService.hasActiveBooking(customerId);
+        return ResponseEntity.ok(activeBookings);
+    }
+
+    @PatchMapping("/unlink-bookings/{id}")
+    public ResponseEntity<Void> unlinkBooking(@PathVariable("id") Long customerId) {
+        logger.info("Received HTTP PATCH request to unlink booking by id: {}", customerId);
+        bookingService.unlinkingBookings(customerId);
+        return ResponseEntity.noContent().build();
+    }
+
 }
