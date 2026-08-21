@@ -84,9 +84,9 @@ public class BookingController {
         return ResponseEntity.ok(activeBookings);
     }
 
-    @PutMapping("/unlink-bookings/{id}")
+    @PatchMapping("/unlink-bookings/{id}")
     public ResponseEntity<Void> unlinkBooking(@PathVariable("id") Long customerId) {
-        logger.info("Received HTTP PUT request to unlink booking by id: {}", customerId);
+        logger.info("Received HTTP PATCH request to unlink booking by id: {}", customerId);
         bookingService.unlinkingBookings(customerId);
         return ResponseEntity.noContent().build();
     }
