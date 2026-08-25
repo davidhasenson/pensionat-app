@@ -6,8 +6,8 @@ import org.example.pensionatapp.pensionat.booking.model.Booking;
 import org.example.pensionatapp.pensionat.booking.model.dto.BookingResponse;
 import org.example.pensionatapp.pensionat.booking.model.dto.UpdateBookingRequest;
 import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
-import org.example.pensionatapp.pensionat.customer.model.Customer;
-import org.example.pensionatapp.pensionat.customer.repository.CustomerRepository;
+import org.example.pensionatapp.pensionat.customer.client.CustomerClient;
+import org.example.pensionatapp.pensionat.customer.client.CustomerDto;
 import org.example.pensionatapp.pensionat.error.BadRequestException;
 import org.example.pensionatapp.pensionat.error.NotFoundException;
 import org.example.pensionatapp.pensionat.room.enumeration.BedType;
@@ -27,16 +27,16 @@ public class BookingService {
     private static final Logger logger = LoggerFactory.getLogger(BookingService.class);
 
     private final BookingRepository bookingRepository;
-    private final CustomerRepository customerRepository;
+    private final CustomerClient customerClient;
     private final RoomRepository roomRepository;
 
     public BookingService(
             BookingRepository bookingRepository,
-            CustomerRepository customerRepository,
+            CustomerClient customerClient,
             RoomRepository roomRepository
     ) {
         this.bookingRepository = bookingRepository;
-        this.customerRepository = customerRepository;
+        this.customerClient = customerClient;
         this.roomRepository = roomRepository;
     }
 
@@ -53,7 +53,7 @@ public class BookingService {
 
         validateDates(startDate, endDate);
 
-        Customer customer = customerRepository.findByEmail(customerEmail)
+        CustomerDto customer = customerClient.findByEmail(customerEmail)
                 .orElseThrow(() -> {
                     logger.warn("Customer not found with email: {}", customerEmail);
                     return new NotFoundException("Ingen kund hittades med e-postadressen: " + customerEmail);
@@ -71,12 +71,12 @@ public class BookingService {
 
         checkRoomAvailability(roomId, startDate, endDate);
 
-        Booking booking = new Booking(customer, room, startDate, endDate, BookingStatus.ACTIVE, extraBedRequested);
+        Booking booking = new Booking(customer.id(), room, startDate, endDate, BookingStatus.ACTIVE, extraBedRequested);
         Booking savedBooking = bookingRepository.save(booking);
 
         logger.info("Booking created successfully with ID: {}", savedBooking.getId());
 
-        return convertToBookingResponse(savedBooking);
+        return convertToBookingResponse(savedBooking, customer);
     }
 
     @Transactional
@@ -176,10 +176,14 @@ public class BookingService {
 
     public List<BookingResponse> getAllBookingsByEmail(String email) {
         logger.info("Fetching all bookings by email: {}", email);
-        List<Booking> bookings = bookingRepository.findByCustomerEmail(email);
+
+        CustomerDto customer = customerClient.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Ingen kund hittades med e-postadressen: " + email));
+
+        List<Booking> bookings = bookingRepository.findByCustomerId(customer.id());
         List<BookingResponse> responses = new ArrayList<>();
         for (Booking booking : bookings) {
-            responses.add(convertToBookingResponse(booking));
+            responses.add(convertToBookingResponse(booking, customer));
         }
         return responses;
     }
@@ -226,16 +230,21 @@ public class BookingService {
     public void unlinkingBookings(Long customerId) {
         List<Booking> bookings = bookingRepository.findByCustomerId(customerId);
         for (Booking booking : bookings) {
-            booking.setCustomer(null);
+            booking.setCustomerId(null);
         }
     }
 
     private BookingResponse convertToBookingResponse(Booking booking) {
+        CustomerDto customer = customerClient.findById(booking.getCustomerId()).orElse(null);
+        return convertToBookingResponse(booking, customer);
+    }
+
+    private BookingResponse convertToBookingResponse(Booking booking, CustomerDto customer) {
         return new BookingResponse(
                 booking.getId(),
-                booking.getCustomer().getEmail(),
-                booking.getCustomer().getFirstName(),
-                booking.getCustomer().getLastName(),
+                customer != null ? customer.email() : null,
+                customer != null ? customer.firstName() : null,
+                customer != null ? customer.lastName() : null,
                 booking.getRoom().getId(),
                 booking.getRoom().getRoomNumber(),
                 booking.getRoom().getBedType().getDisplayName(),

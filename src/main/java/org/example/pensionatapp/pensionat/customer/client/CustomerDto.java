@@ -1,6 +1,6 @@
-package org.example.pensionatapp.pensionat.customer.model.dto;
+package org.example.pensionatapp.pensionat.customer.client;
 
-public record CustomerResponse(
+public record CustomerDto(
         Long id,
         String firstName,
         String lastName,
