@@ -1,6 +1,7 @@
 package org.example.pensionatapp.pensionat.error;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.example.pensionatapp.pensionat.customer.client.CustomerServiceUnavailableException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -68,6 +69,16 @@ public class GlobalExceptionHandler {
         responseBody.put("message", ex.getMessage());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
+    @ExceptionHandler(CustomerServiceUnavailableException.class)
+    public ResponseEntity<Map<String, Object>> handleCustomerServiceUnavailable(
+            CustomerServiceUnavailableException ex, HttpServletRequest request) {
+
+        Map<String, Object> responseBody = createBaseResponse(HttpStatus.SERVICE_UNAVAILABLE, request);
+        responseBody.put("message", ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(responseBody);
     }
 
     private Map<String, Object> createBaseResponse(HttpStatus status, HttpServletRequest request) {

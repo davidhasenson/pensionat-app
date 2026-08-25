@@ -24,28 +24,17 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             Long bookingId
     );
 
-    boolean existsByCustomerIdAndStatus(
-            Long customerId,
-            BookingStatus status
-    );
+    boolean existsByCustomerIdAndStatus(Long customerId, BookingStatus status);
 
-    List<Booking> findByCustomerIdAndStatus(
-            Long customerId,
-            BookingStatus status
-    );
+    List<Booking> findByCustomerIdAndStatus(Long customerId, BookingStatus status);
 
-    List<Booking> findByRoomIdAndStatus(
-            Long roomId,
-            BookingStatus status
-    );
+    List<Booking> findByRoomIdAndStatus(Long roomId, BookingStatus status);
 
     boolean existsByCustomerId(Long customerId);
 
     boolean existsByCustomerIdAndEndDateAfterAndStatus(Long customerId, LocalDate date, BookingStatus status);
 
     boolean existsByCustomerIdAndEndDateAfter(Long customerId, LocalDate date);
-
-    List<Booking> findByCustomerEmail(String email);
 
     List<Booking> findByCustomerId(Long customerId);
 
@@ -54,7 +43,4 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             LocalDate endDate,
             LocalDate startDate
     );
-
-
-
 }
