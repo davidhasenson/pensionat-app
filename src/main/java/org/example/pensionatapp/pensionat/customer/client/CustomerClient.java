@@ -1,11 +1,17 @@
 package org.example.pensionatapp.pensionat.customer.client;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.Optional;
 
@@ -17,7 +23,20 @@ public class CustomerClient {
     private final RestClient restClient;
 
     public CustomerClient(RestClient.Builder builder, @Value("${customer-service.base-url}") String baseUrl) {
-        this.restClient = builder.baseUrl(baseUrl).build();
+        this.restClient = builder
+                .baseUrl(baseUrl)
+                .requestInterceptor((request, body, execution) -> {
+                    ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+                    if (attributes != null) {
+                        HttpServletRequest servletRequest = attributes.getRequest();
+                        String authHeader = servletRequest.getHeader(HttpHeaders.AUTHORIZATION);
+                        if (authHeader != null && !authHeader.isBlank()) {
+                            request.getHeaders().add(HttpHeaders.AUTHORIZATION, authHeader);
+                        }
+                    }
+                    return execution.execute(request, body);
+                })
+                .build();
     }
 
     public Optional<CustomerDto> findByEmail(String email) {
