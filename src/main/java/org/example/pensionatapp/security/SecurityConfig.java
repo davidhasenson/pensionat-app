@@ -3,6 +3,7 @@ package org.example.pensionatapp.security;
 import org.example.pensionatapp.jwt.filter.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -22,8 +23,11 @@ public class SecurityConfig {
     SecurityFilterChain chain(HttpSecurity http) throws Exception {
         return http
                 .csrf(c -> c.disable())
+                .cors(c -> {})
                 .authorizeHttpRequests(a -> a
                         .requestMatchers("/auth/**")
+                        .permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/rooms/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated())
