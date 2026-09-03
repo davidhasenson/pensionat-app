@@ -9,6 +9,7 @@ import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
 import org.example.pensionatapp.pensionat.customer.client.CustomerClient;
 import org.example.pensionatapp.pensionat.customer.client.CustomerDto;
 import org.example.pensionatapp.pensionat.error.BadRequestException;
+import org.example.pensionatapp.pensionat.error.ConflictException;
 import org.example.pensionatapp.pensionat.error.NotFoundException;
 import org.example.pensionatapp.pensionat.room.enumeration.BedType;
 import org.example.pensionatapp.pensionat.room.model.Room;
@@ -112,7 +113,7 @@ public class BookingService {
 
         if (roomIsBooked) {
             logger.warn("Update failed. Room ID {} is already booked between {} and {}", request.roomId(), request.startDate(), request.endDate());
-            throw new BadRequestException("Rummet är redan bokat under valt datumintervall");
+            throw new ConflictException("Rummet är redan bokat under valt datumintervall");
         }
 
         if (request.extraBedRequested() && room.getBedType() != BedType.DOUBLE_BED) {
@@ -218,7 +219,7 @@ public class BookingService {
 
         if (roomIsBooked) {
             logger.warn("Room ID {} is already booked between {} and {}", roomId, startDate, endDate);
-            throw new BadRequestException("Rummet är redan bokat under valt datumintervall");
+            throw new ConflictException("Rummet är redan bokat under valt datumintervall");
         }
     }
 
