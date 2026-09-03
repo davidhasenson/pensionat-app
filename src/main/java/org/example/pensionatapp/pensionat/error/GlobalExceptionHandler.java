@@ -71,6 +71,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<Map<String, Object>> handleConflictException(
+            ConflictException ex, HttpServletRequest request) {
+
+        Map<String, Object> responseBody = createBaseResponse(HttpStatus.CONFLICT, request);
+        responseBody.put("message", ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(responseBody);
+    }
+
     @ExceptionHandler(CustomerServiceUnavailableException.class)
     public ResponseEntity<Map<String, Object>> handleCustomerServiceUnavailable(
             CustomerServiceUnavailableException ex, HttpServletRequest request) {
