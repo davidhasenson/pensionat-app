@@ -1,6 +1,7 @@
 package org.example.pensionatapp.pensionat;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import org.example.pensionatapp.jwt.service.JwtService;
 import org.example.pensionatapp.pensionat.booking.model.dto.CreateBookingRequest;
 import org.example.pensionatapp.pensionat.booking.repository.BookingRepository;
 import org.example.pensionatapp.pensionat.customer.client.CustomerClient;
@@ -27,6 +28,7 @@ import tools.jackson.databind.ObjectMapper;
 import java.time.LocalDate;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -59,6 +61,9 @@ public class BookingApiTest {
     @Autowired
     private RoomRepository roomRepository;
 
+    @Autowired
+    private JwtService jwtService;
+
     @MockitoBean
     private CustomerClient customerClient;
 
@@ -70,7 +75,7 @@ public class BookingApiTest {
 
     @Test
     @WithMockUser(username = "frodo")
-    void createBooking() throws  Exception {
+    void createBooking() throws Exception {
         Room room = new Room("101", 1, BedType.SINGLE_BED, 500);
         Room savedRoom = roomRepository.save(room);
 
@@ -99,5 +104,38 @@ public class BookingApiTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.customerEmail").value("frodo@shire.com"));
+    }
+
+    @Test
+    void createBookingOnAlreadyBookedRoomReturns409Conflict() throws Exception {
+        Room room = roomRepository.save(new Room("201", 2, BedType.DOUBLE_BED, 1000));
+
+        CustomerDto customer = new CustomerDto(1L, "frodo123", "Frodo", "Baggins", "frodo@shire.com", "0701234567");
+        when(customerClient.findByEmail(anyString())).thenReturn(Optional.of(customer));
+
+        String token = "Bearer " + jwtService.generateToken("frodo123");
+
+        LocalDate startDate = LocalDate.now().plusDays(5);
+        LocalDate endDate = LocalDate.now().plusDays(10);
+
+        CreateBookingRequest firstRequest = new CreateBookingRequest(
+                "frodo@shire.com", room.getId(), startDate, endDate, false
+        );
+
+        mockMvc.perform(post("/api/bookings")
+                        .header("Authorization", token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(firstRequest)))
+                .andExpect(status().isCreated());
+
+        CreateBookingRequest secondRequest = new CreateBookingRequest(
+                "frodo@shire.com", room.getId(), startDate, endDate, false
+        );
+
+        mockMvc.perform(post("/api/bookings")
+                        .header("Authorization", token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(secondRequest)))
+                .andExpect(status().isConflict());
     }
 }
