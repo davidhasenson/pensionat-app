@@ -14,10 +14,27 @@ spec:
     spec:
       containers:
         - name: pensionat-app
-          image: pensionat-app
+          image: pensionat-pensionat-app:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 8083
+          env:
+            - name: DB_URL
+              value: jdbc:mysql://pensionat-db:3306/pensionat_db
+            - name: DB_USERNAME
+              value: root
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pensionat-secrets
+                  key: DB_PASSWORD
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: pensionat-secrets
+                  key: JWT_SECRET
+            - name: CUSTOMER_SERVICE_BASE_URL
+              value: http://customer-service:8081
 
 ---
 
@@ -26,9 +43,9 @@ kind: Service
 metadata:
   name: pensionat-app
 spec:
+  type: LoadBalancer
   selector:
     app: pensionat-app
   ports:
     - port: 8083
       targetPort: 8083
-
