@@ -17,7 +17,7 @@ spec:
           image: pensionat-app
           imagePullPolicy: Never
           ports:
-            - containerPort: 8080
+            - containerPort: 8083
 
 ---
 
@@ -29,6 +29,6 @@ spec:
   selector:
     app: pensionat-app
   ports:
-    - port: 8080
-      targetPort: 8080
+    - port: 8083
+      targetPort: 8083
 
