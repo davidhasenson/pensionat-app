@@ -3,12 +3,22 @@ services:
   pensionat-db:
     image: mysql:8
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: pensionat-db
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: pensionat_db
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p12345" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   pensionat-app:
     build: .
     ports:
       - "8080:8080"
+    env_file:
+      - .env
     depends_on:
-      - pensionat-db
+      pensionat-db:
+        condition: service_healthy
+    environment:
+      CUSTOMER_SERVICE_BASE_URL: http://customer-service:8081
