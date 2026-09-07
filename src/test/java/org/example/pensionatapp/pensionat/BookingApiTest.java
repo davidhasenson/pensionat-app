@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @ContextConfiguration(initializers = BookingApiTest.EnvLoader.class)
-public class BookingApiTest {
+public class  BookingApiTest {
 
     static class EnvLoader implements ApplicationContextInitializer<ConfigurableApplicationContext> {
         @Override

@@ -17,9 +17,9 @@ spec:
           image: mysql:8
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: root
+              value: "12345"
             - name: MYSQL_DATABASE
-              value: pensionatdb
+              value: pensionat_db
           ports:
             - containerPort: 3306
 
@@ -35,4 +35,3 @@ spec:
   ports:
     - port: 3306
       targetPort: 3306
-
