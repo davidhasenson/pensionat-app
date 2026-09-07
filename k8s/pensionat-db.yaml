@@ -17,7 +17,10 @@ spec:
           image: mysql:8
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: "12345"
+              valueFrom:
+                secretKeyRef:
+                  name: pensionat-secrets
+                  key: DB_PASSWORD
             - name: MYSQL_DATABASE
               value: pensionat_db
           ports:
