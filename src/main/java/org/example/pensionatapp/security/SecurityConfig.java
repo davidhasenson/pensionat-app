@@ -25,10 +25,7 @@ public class SecurityConfig {
                 .csrf(c -> c.disable())
                 .cors(c -> {})
                 .authorizeHttpRequests(a -> a
-                        .requestMatchers("/auth/**")
-                        .permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/rooms/**")
-                        .permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/rooms/**").permitAll()
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(s -> s.sessionCreationPolicy(
