@@ -6,10 +6,11 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: pensionat_db
     healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$DB_PASSWORD" ]
+      test: [ "CMD-SHELL", "mysqladmin ping -h localhost -u root -p$DB_PASSWORD" ]
       interval: 5s
       timeout: 5s
       retries: 10
+      start_period: 60s
 
   pensionat-app:
     build: .
@@ -17,8 +18,9 @@ services:
       - "8083:8083"
     env_file:
       - .env
+    environment:
+      DB_URL: jdbc:mysql://pensionat-db:3306/pensionat_db
+      CUSTOMER_SERVICE_BASE_URL: http://customer-service:8081
     depends_on:
       pensionat-db:
         condition: service_healthy
-    environment:
-      CUSTOMER_SERVICE_BASE_URL: http://customer-service:8081
