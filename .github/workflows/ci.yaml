@@ -1,0 +1,54 @@
+name: CI with integration tests
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+        java:
+          - 17
+        #  - 21
+
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: pensionat_db_test
+        ports:
+          - 3306:3306
+        options:
+          --health-cmd="mysqladmin ping -h localhost -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - name: Check out Code
+        uses: actions/checkout@v4
+
+      - name: Set up java
+        uses: actions/setup-java@v5
+        with:
+          java-version: ${{matrix.java}}
+          distribution: "temurin"
+          cache: "maven"
+
+      - name: Build
+        run: mvn -B clean package -DskipTests
+
+      - name: Run Tests
+        run: mvn -B test
+
+        env:
+          SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/pensionat_db_test
+          DB_USERNAME: root
+          DB_PASSWORD: root
+          JWT_SECRET: 5367566859703373367639792F423F452848284D6251655468576D5A71347437
