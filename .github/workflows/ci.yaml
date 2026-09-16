@@ -14,7 +14,7 @@ jobs:
           - ubuntu-latest
         java:
           - 17
-        #  - 21
+          - 21
 
     services:
       mysql:
