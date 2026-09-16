@@ -7,7 +7,15 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+        java:
+          - 17
+          - 21
+
     services:
       mysql:
         image: mysql:8
@@ -29,7 +37,7 @@ jobs:
       - name: Set up java
         uses: actions/setup-java@v5
         with:
-          java-version: "17"
+          java-version: ${{matrix.java}}
           distribution: "temurin"
           cache: "maven"
 
