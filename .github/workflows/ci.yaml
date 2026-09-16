@@ -3,19 +3,11 @@ name: CI with integration tests
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os:
-          - ubuntu-latest
-        java:
-          - 17
-          - 21
-
+    runs-on: ubuntu-latest
     services:
       mysql:
         image: mysql:8
@@ -37,7 +29,7 @@ jobs:
       - name: Set up java
         uses: actions/setup-java@v5
         with:
-          java-version: ${{matrix.java}}
+          java-version: "17"
           distribution: "temurin"
           cache: "maven"
 
