@@ -26,6 +26,7 @@ public class SecurityConfig {
                 .cors(c -> {})
                 .authorizeHttpRequests(a -> a
                         .requestMatchers(HttpMethod.GET, "/api/rooms/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/test/hello").permitAll()
                         .anyRequest()
                         .authenticated())
                 .sessionManagement(s -> s.sessionCreationPolicy(
