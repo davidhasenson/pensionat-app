@@ -102,7 +102,7 @@ public class  BookingApiTest {
         mockMvc.perform(post("/api/bookings")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isConflict())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.customerEmail").value("frodo@shire.com"));
     }
 
