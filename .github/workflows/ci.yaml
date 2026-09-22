@@ -12,10 +12,9 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
 
-    #Used by GitHub Container Registry
-#    permissions:
-#      contents: read
-#      packages: write
+    permissions:
+      contents: read
+      packages: write
 
     strategy:
       matrix:
