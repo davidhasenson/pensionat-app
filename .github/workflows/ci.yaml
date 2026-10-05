@@ -3,12 +3,12 @@ name: CI/CD Pipeline # Build once, Deploy anywhere
 on:
   push:
     branches:
-      - master
+      - main
     tags:
       - 'v*.*.*'
   pull_request:
     branches:
-      - master
+      - main
   workflow_dispatch:
     inputs:
       image_tag:
