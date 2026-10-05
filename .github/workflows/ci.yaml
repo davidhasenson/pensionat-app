@@ -198,3 +198,4 @@ jobs:
             }'
 
           docker stop railway-updater
+          
