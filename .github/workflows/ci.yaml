@@ -186,7 +186,7 @@ jobs:
             ghcr.io/returnearly/railway-image-updater:latest
 
           #  Vänta 3 sekunder så att webbservern hinner starta
-          sleep 3
+          sleep 10
 
           curl -X PUT http://localhost:8080/deploy-commit \
             -H "Content-Type: application/json" \
