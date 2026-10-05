@@ -175,7 +175,7 @@ jobs:
 # -------------------------------------------------------------
   deploy-staging:
     needs: push-to-container-registry
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Deploy via Railway Image Updater
